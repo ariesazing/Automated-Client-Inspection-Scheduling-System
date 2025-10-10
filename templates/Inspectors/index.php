@@ -1,18 +1,19 @@
 <div class="col-12">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Users</h3>
+            <h3 class="card-title">Inspectors</h3>
             <div class="card-tools">
                 <?= $this->Html->link('<i class="fas fa-plus"></i>','',
-                    ['id'=>'add','data-toggle'=>'tooltip','data-placement'=>'bottom','title'=>'Add User','escape'=>false]) ?>
+                    ['id'=>'add','data-toggle'=>'tooltip','data-placement'=>'bottom','title'=>'Add Inspector','escape'=>false]) ?>
             </div>
         </div>
         <div class="card-body">
-            <table id="users-table" class="table table-bordered table-hover">
+            <table id="inspectors-table" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Role</th>
+                        <th>User</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -21,7 +22,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="users-modal">
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="inspectors-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -30,19 +31,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= $this->Form->create($user,['id'=>'users-form']) ?>
+            <?= $this->Form->create($inspector,['id'=>'inspectors-form']) ?>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <?= $this->Form->control('username',['class'=>'form-control','label'=>false]) ?>
-                    <label for="password">Password</label>
-                    <?= $this->Form->control('password',['class'=>'form-control','label'=>false]) ?>
-                    <label for="role">Role</label>
-                    <?= $this->Form->control('role',['class'=>'form-control',
-                    'options'=>$this->Options->roles(),'label'=>false]) ?>
+                    <label for="user-id">User</label>
+                    <?= $this->Form->control('user_id',['class'=>'form-control','label'=>false]) ?>
+                    <label for="name">Name</label>
+                    <?= $this->Form->control('name',['class'=>'form-control','label'=>false]) ?>
+                   <label for="specialization">Specialization</label>
+                    <?= $this->Form->control('specialization',['class'=>'form-control',
+                    'options'=>$this->Options->specialization(),'label'=>false]) ?>
                     <label for="status">Status</label>
                     <?= $this->Form->control('status',['class'=>'form-control',
-                    'options'=>$this->Options->user_status(),'label'=>false]) ?>
+                    'options'=>$this->Options->inspector_status(),'label'=>false]) ?>
                 </div>
             </div>
             <div class="modal-footer">

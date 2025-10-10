@@ -92,6 +92,18 @@ return function (RouteBuilder $routes): void {
                 'pass' => ['id']
             ]);
         });
+
+        $builder->scope('/Inspectors', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Inspectors', 'action' => 'index']);
+            $builder->connect('/getInspectors', ['controller' => 'Inspectors', 'action' => 'getInspectors']);
+            $builder->connect('/add', ['controller' => 'Inspectors', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Inspectors', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Inspectors', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
     });
     /*
      * If you need a different set of middleware or none at all,

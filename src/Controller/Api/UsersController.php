@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -20,7 +21,7 @@ class UsersController extends AppController
      */
     public function index()
     {
-        
+
         $users = $this->Users->find();
         return $this->response->withType('application/json')
             ->withStringBody(json_encode($users));
@@ -30,7 +31,7 @@ class UsersController extends AppController
     {
         $users = $this->Users->find();
         return $this->response->withType('application/json')
-            ->withStringBody(json_encode(['data'=>$users]));
+            ->withStringBody(json_encode(['data' => $users]));
     }
 
     /**
@@ -45,8 +46,8 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $result = ['status' => 'success', 'message' => 'The User has been saved.'];
-            }else {
-                $result = ['status'=>'error','message'=>'The User could not be saved. Please, try again.'];
+            } else {
+                $result = ['status' => 'error', 'message' => 'The User could not be saved. Please, try again.'];
             }
             return $this->response->withType('application/json')
                 ->withStringBody(json_encode($result));
@@ -69,8 +70,8 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $result = ['status' => 'success', 'message' => 'The User has been saved.'];
-            }else {
-                $result = ['status'=>'error','message'=>'The User could not be saved. Please, try again.'];
+            } else {
+                $result = ['status' => 'error', 'message' => 'The User could not be saved. Please, try again.'];
             }
             return $this->response->withType('application/json')
                 ->withStringBody(json_encode($result));
@@ -92,8 +93,8 @@ class UsersController extends AppController
         $user = $this->Users->get($id);
         if ($this->Users->delete($user)) {
             $result = ['status' => 'success', 'message' => 'The User has been deleted.'];
-        }else {
-            $result = ['status'=>'error','message'=>'The User could not be deleted. Please, try again.'];
+        } else {
+            $result = ['status' => 'error', 'message' => 'The User could not be deleted. Please, try again.'];
         }
         return $this->response->withType('application/json')
             ->withStringBody(json_encode($result));
@@ -106,10 +107,10 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
-                $data['status']='success';
-                $data['user']= $this->Auth->user();
-            }else{
-                $data['status']='error';
+                $data['status'] = 'success';
+                $data['user'] = $this->Auth->user();
+            } else {
+                $data['status'] = 'error';
             }
             return $this->response->withType('application/json')
                 ->withStringBody(json_encode($data));
@@ -120,6 +121,28 @@ class UsersController extends AppController
     {
         $this->Auth->logout();
         return $this->response->withType('application/json')
-            ->withStringBody(json_encode($data['status']='logout'));
+            ->withStringBody(json_encode($data['status'] = 'logout'));
+    }
+
+    public function getAvailableForInspector()
+    {
+        $this->request->allowMethod(['get']);
+
+        $inspectorsTable = $this->getTableLocator()->get('Inspectors');
+
+        $assignedUserIds = $inspectorsTable->find('list', [
+            'keyField' => 'user_id',
+            'valueField' => 'id'
+        ])->toArray();
+
+        $users = $this->Users->find()
+            ->where(['id NOT IN' => $assignedUserIds])
+            ->select(['id', 'username'])
+            ->toArray();
+
+        $this->set([
+            'data' => $users,
+            '_serialize' => ['data']
+        ]);
     }
 }

@@ -27,7 +27,28 @@ class OptionsHelper extends Helper
 
         return $array;
     }
-     public function status()
+    public function specialization()
+    {
+        $array =[
+
+            'general' => 'General',
+            'electrical' => 'Electrical',
+            'mechanical' => 'Mechanical',
+            'structural' => 'Structural',
+            'hazardous' => 'Hazardous'
+        ];
+        return $array;
+    }
+    public function inspector_status()
+    {
+        $array =[
+            'available' => 'Available',
+            'on_inspection' => 'On Inspection',
+            'on_leave' => 'On Leave',
+        ];
+        return $array;
+    }
+     public function user_status()
     {
         $array =[
             'active' => 'Active',

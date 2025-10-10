@@ -22,12 +22,20 @@
                         </p>','/Dashboard',['class'=>'nav-link '.$active,'escape'=>false]) ?>
                 </li>
                 <li class="nav-item">
+                    <?php $active = $title=='Inspectors'?'active':'' ?>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Inspectors
+                        </p>','/Inspectors',['class'=>'nav-link '.$active,'escape'=>false]) ?>
+                </li>
+                <li class="nav-item">
                     <?php $active = $title=='Users'?'active':'' ?>
                     <?= $this->Html->link('<i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Users
                         </p>','/Users',['class'=>'nav-link '.$active,'escape'=>false]) ?>
                 </li>
+                
             </ul>
         </nav>
     </div>
