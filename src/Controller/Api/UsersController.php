@@ -124,25 +124,5 @@ class UsersController extends AppController
             ->withStringBody(json_encode($data['status'] = 'logout'));
     }
 
-    public function getAvailableForInspector()
-    {
-        $this->request->allowMethod(['get']);
-
-        $inspectorsTable = $this->getTableLocator()->get('Inspectors');
-
-        $assignedUserIds = $inspectorsTable->find('list', [
-            'keyField' => 'user_id',
-            'valueField' => 'id'
-        ])->toArray();
-
-        $users = $this->Users->find()
-            ->where(['id NOT IN' => $assignedUserIds])
-            ->select(['id', 'username'])
-            ->toArray();
-
-        $this->set([
-            'data' => $users,
-            '_serialize' => ['data']
-        ]);
-    }
+  
 }

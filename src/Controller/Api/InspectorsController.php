@@ -33,7 +33,7 @@ class InspectorsController extends AppController
             ->withStringBody(json_encode(['data' => $inspectors]));
     }
 
-     public function view($id = null)
+    public function view($id = null)
     {
         $inspector = $this->Inspectors->get($id, [
             'contain' => ['Inspectors'],

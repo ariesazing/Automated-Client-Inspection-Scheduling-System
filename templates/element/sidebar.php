@@ -23,10 +23,17 @@
                 </li>
                 <li class="nav-item">
                     <?php $active = $title=='Inspectors'?'active':'' ?>
-                    <?= $this->Html->link('<i class="nav-icon fas fa-tachometer-alt"></i>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-user-tie"></i>
                         <p>
                             Inspectors
                         </p>','/Inspectors',['class'=>'nav-link '.$active,'escape'=>false]) ?>
+                </li>
+                <li class="nav-item">
+                    <?php $active = $title=='Clients'?'active':'' ?>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Clients
+                        </p>','/Clients',['class'=>'nav-link '.$active,'escape'=>false]) ?>
                 </li>
                 <li class="nav-item">
                     <?php $active = $title=='Users'?'active':'' ?>

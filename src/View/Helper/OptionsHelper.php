@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -20,16 +21,16 @@ class OptionsHelper extends Helper
 
     public function roles()
     {
-        $array =[
-            'admin'=>'Administrator',
-            'inspector'=>'Inspector'
+        $array = [
+            'admin' => 'Administrator',
+            'inspector' => 'Inspector'
         ];
 
         return $array;
     }
     public function specialization()
     {
-        $array =[
+        $array = [
 
             'general' => 'General',
             'electrical' => 'Electrical',
@@ -41,18 +42,48 @@ class OptionsHelper extends Helper
     }
     public function inspector_status()
     {
-        $array =[
+        $array = [
             'available' => 'Available',
             'on_inspection' => 'On Inspection',
             'on_leave' => 'On Leave',
         ];
         return $array;
     }
-     public function user_status()
+    public function user_status()
     {
-        $array =[
+        $array = [
             'active' => 'Active',
             'inactive' => 'Inactive',
+        ];
+        return $array;
+    }
+    public function client_status()
+    {
+        $array = [
+            'active' => 'Active',
+            'inactive' => 'Inactive',
+        ];
+        return $array;
+    }
+
+     public function client_type()
+    {
+        $array = [
+            'residential' => 'Residential',
+            'commercial' => 'Commercial',
+            'industrial' => 'Industrial',
+            'assembly' => 'Assembly',
+            'storage' => 'Storage',
+            'miscellaneous' => 'Miscellaneous',
+        ];
+        return $array;
+    }
+    public function risk_level()
+    {
+        $array = [
+            'low' => 'Low',
+            'medium' => 'Medium',
+            'high' => 'High'
         ];
         return $array;
     }

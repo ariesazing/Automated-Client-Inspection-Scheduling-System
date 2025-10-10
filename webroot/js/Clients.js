@@ -1,28 +1,30 @@
-
 $(function () {
-    getUsers();
+    getClients();
 
     $('#add').on('click', function (e) {
         e.preventDefault();
-        $('.modal-title').html('Add User');
-        $('#users-modal').modal('show');
+        $('.modal-title').html('Add Client');
+        $('#clients-modal').modal('show');
     });
-    $('#users-table').on('click', '.edit', function (e) {
+    $('#clients-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
-        $('.modal-title').html('Update User');
+        $('.modal-title').html('Update Client');
         $.ajax({
-            url: BASE_URL + '/api/Users/edit/' + id,
+            url: BASE_URL + '/api/Clients/edit/' + id,
             type: "GET",
             dataType: 'json'
         })
             .done(function (data) {
                 if (data != '') {
-                    $('#username').val(data.username);
-                    $('#role').val(data.role);
+                    $('#owner-name').val(data.owner_name);
+                    $('#establishment-name').val(data.establishment_name);
+                    $('#address').val(data.address);
+                    $('#type').val(data.type);
+                    $('#risk-level').val(data.risk_level);
                     $('#status').val(data.status);
                     $('#id').val(data.id);
-                    $('#users-modal').modal('show');
+                    $('#clients-modal').modal('show');
                 }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
@@ -30,15 +32,15 @@ $(function () {
             });
     });
 
-    $('#users-form').submit(function (e) {
+    $('#clients-form').submit(function (e) {
         e.preventDefault();
         let fd = new FormData(this);
         let id = $('#id').val();
         let url = '';
         if (id == '') {
-            url = BASE_URL + '/api/Users/add';
+            url = BASE_URL + '/api/Clients/add';
         } else {
-            url = BASE_URL + '/api/Users/edit/' + id;
+            url = BASE_URL + '/api/Clients/edit/' + id;
         }
 
         $.ajax({
@@ -50,9 +52,9 @@ $(function () {
             dataType: 'json'
         }).done(function (data) {
             if (data.status == 'success') {
-                getUsers();
+                getClients();
                 msgBox(data.status, data.message);
-                $('#users-modal').modal('hide');
+                $('#clients-modal').modal('hide');
             } else {
                 msgBox(data.status, data.message);
             }
@@ -61,13 +63,13 @@ $(function () {
         });
     });
 
-    $('#users-table').on('click', '.delete', function (e) {
+    $('#clients-table').on('click', '.delete', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
         isDelete(function (confirmed) {
             if (confirmed) {
                 $.ajax({
-                    url: BASE_URL + '/api/Users/delete/' + id,
+                    url: BASE_URL + '/api/Clients/delete/' + id,
                     type: "DELETE",
                     dataType: 'json',
                     headers: {
@@ -76,7 +78,7 @@ $(function () {
                 })
                     .done(function (data, textStatus, jqXHR) {
                         if (data.status == 'success') {
-                            getUsers();
+                            getClients();
                             msgBox(data.status, data.message);
                         } else {
                             msgBox(data.status, data.message);
@@ -89,36 +91,40 @@ $(function () {
         });
     });
 
-    $('#users-modal').on('shown.bs.modal', function () {
+    $('#clients-modal').on('shown.bs.modal', function () {
         setTimeout(function () {
-            $('#username').focus();
+            $('#owner-name').focus();
         }, 500);
     });
 
-    $('#users-modal').on('hidden.bs.modal', function () {
-        $("#users-form").trigger("reset");
+    $('#clients-modal').on('hidden.bs.modal', function () {
+        $("#clients-form").trigger("reset");
         $("#id").val('');
     });
 });
 
-function getUsers() {
+
+function getClients() {
     $.ajax({
-        url: BASE_URL + '/api/Users/getUsers',
+        url: BASE_URL + '/api/Clients/getClients',
         type: 'GET',
         dataType: 'json'
     }).done(function (res) {
-        //console.log('Fetched users:', res);
+        //console.log('Fetched clients:', res);
 
-        const users = res.data;
+        const clients = res.data;
 
-        $('#users-table').DataTable({
+        $('#clients-table').DataTable({
             responsive: true,
             destroy: true,
             order: [[0, 'asc']],
-            data: users,
+            data: clients,
             columns: [
-                { data: 'username' },
-                { data: 'role' },
+                { data: 'owner_name' },
+                { data: 'establishment_name' },
+                { data: 'address' },
+                { data: 'type' },
+                { data: 'risk_level' },
                 { data: 'status' },
                 {
                     data: null,
@@ -136,4 +142,3 @@ function getUsers() {
         console.error('Error fetching users:', errorThrown);
     });
 }
-
