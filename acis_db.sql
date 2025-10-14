@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2025 at 10:44 PM
+-- Generation Time: Oct 13, 2025 at 09:37 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,16 +41,28 @@ CREATE TABLE `audit_trail` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `availability`
+-- Table structure for table `availabilities`
 --
 
-DROP TABLE IF EXISTS `availability`;
-CREATE TABLE `availability` (
+DROP TABLE IF EXISTS `availabilities`;
+CREATE TABLE `availabilities` (
   `id` int(11) NOT NULL,
   `inspector_id` int(11) NOT NULL,
   `available_date` date NOT NULL,
-  `is_available` tinyint(1) DEFAULT 1
+  `is_available` tinyint(1) DEFAULT 1,
+  `reason` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `availabilities`
+--
+
+INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_available`, `reason`) VALUES
+(6, 4, '2025-10-15', 1, 'Regular working day'),
+(7, 4, '2025-10-16', 1, 'Regular working day'),
+(8, 4, '2025-10-17', 0, 'Annual leave'),
+(9, 4, '2025-10-18', 1, 'Regular working day'),
+(10, 4, '2025-10-19', 1, 'Regular working day');
 
 -- --------------------------------------------------------
 
@@ -75,7 +87,8 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `owner_name`, `establishment_name`, `address`, `type`, `risk_level`, `status`, `created_at`) VALUES
-(1, 'Nonie Pogi', 'Nonie Enterprise', 'Dubinan West, Santiago City', 'commercial', 'low', '', '2025-10-11 04:43:40');
+(1, 'Nonie Pogi', 'Nonie Enterprise', 'Dubinan West, Santiago City', 'commercial', 'low', 'inactive', '2025-10-11 04:43:40'),
+(2, 'Kazuma Ichinose', 'Oolong Bar', 'Purok 9, Barangay Mizushi, Kyoto City', 'commercial', 'medium', 'active', '2025-10-13 01:36:42');
 
 -- --------------------------------------------------------
 
@@ -211,9 +224,9 @@ ALTER TABLE `audit_trail`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `availability`
+-- Indexes for table `availabilities`
 --
-ALTER TABLE `availability`
+ALTER TABLE `availabilities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `inspector_id` (`inspector_id`);
 
@@ -277,16 +290,16 @@ ALTER TABLE `audit_trail`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `availability`
+-- AUTO_INCREMENT for table `availabilities`
 --
-ALTER TABLE `availability`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `availabilities`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `inspections`
@@ -335,10 +348,10 @@ ALTER TABLE `audit_trail`
   ADD CONSTRAINT `audit_trail_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `availability`
+-- Constraints for table `availabilities`
 --
-ALTER TABLE `availability`
-  ADD CONSTRAINT `availability_ibfk_1` FOREIGN KEY (`inspector_id`) REFERENCES `inspectors` (`id`) ON DELETE CASCADE;
+ALTER TABLE `availabilities`
+  ADD CONSTRAINT `availabilities_ibfk_1` FOREIGN KEY (`inspector_id`) REFERENCES `inspectors` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `inspections`

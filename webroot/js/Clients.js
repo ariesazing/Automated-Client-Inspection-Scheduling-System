@@ -3,30 +3,31 @@ $(function () {
 
     $('#add').on('click', function (e) {
         e.preventDefault();
-        $('.modal-title').html('Add Client');
+        $('#modal-title').html('Add Client');
         $('#clients-modal').modal('show');
     });
+
+
     $('#clients-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
-        $('.modal-title').html('Update Client');
+        $('#modal-title').html('Update Client');
         $.ajax({
             url: BASE_URL + '/api/Clients/edit/' + id,
             type: "GET",
             dataType: 'json'
+        }).done(function (data) {
+            if (data != '') {
+                $('#owner-name').val(data.owner_name);
+                $('#establishment-name').val(data.establishment_name);
+                $('#address').val(data.address);
+                $('#type').val(data.type);
+                $('#risk-level').val(data.risk_level);
+                $('#status').val(data.status);
+                $('#id').val(data.id);
+                $('#clients-modal').modal('show');
+            }
         })
-            .done(function (data) {
-                if (data != '') {
-                    $('#owner-name').val(data.owner_name);
-                    $('#establishment-name').val(data.establishment_name);
-                    $('#address').val(data.address);
-                    $('#type').val(data.type);
-                    $('#risk-level').val(data.risk_level);
-                    $('#status').val(data.status);
-                    $('#id').val(data.id);
-                    $('#clients-modal').modal('show');
-                }
-            })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 msgBox('error', errorThrown);
             });

@@ -3,7 +3,7 @@ $(function () {
 
     $('#add').on('click', function (e) {
         e.preventDefault();
-        $('.modal-title').html('Add Inspector');
+        $('#modal-title').html('Add Inspector');
         loadUsers(null, function () {
             // show modal only after users are loaded
             $('#inspectors-modal').modal('show');
@@ -12,7 +12,6 @@ $(function () {
     $('#inspectors-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
-        $('.modal-title').html('Update Inspector');
         $.ajax({
             url: BASE_URL + '/api/Inspectors/edit/' + id,
             type: "GET",
@@ -29,6 +28,7 @@ $(function () {
                         $('#inspectors-modal').modal('show');
                     });
                 }
+                $('#modal-title').html('Update Inspector: ' + data.name);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 msgBox('error', errorThrown);

@@ -26,13 +26,6 @@ class InspectorsController extends AppController
             ->withStringBody(json_encode($inspectors));
     }
 
-    public function getInspectors()
-    {
-        $inspectors = $this->Inspectors->find()->contain(['Users']);
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode(['data' => $inspectors]));
-    }
-
     public function view($id = null)
     {
         $inspector = $this->Inspectors->get($id, [
@@ -40,6 +33,12 @@ class InspectorsController extends AppController
         ]);
 
         $this->set(compact('inspector'));
+    }
+    public function getInspectors()
+    {
+        $inspectors = $this->Inspectors->find()->contain(['Users']);
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode(['data' => $inspectors]));
     }
     /**
      * Add method
@@ -71,7 +70,7 @@ class InspectorsController extends AppController
     public function edit($id = null)
     {
         $inspector = $this->Inspectors->get($id, [
-            'contain' => [],
+            'contain' => ['Users'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $inspector = $this->Inspectors->patchEntity($inspector, $this->request->getData());

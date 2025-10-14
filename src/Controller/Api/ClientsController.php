@@ -42,11 +42,11 @@ class ClientsController extends AppController
 
     public function view($id = null)
     {
-        $clients = $this->Clients->get($id, [
-            'contain' => ['Inspections'],
-        ]);
+        $clients = $this->Clients->find()
+            ->contain(['Inspections']);
 
-        $this->set(compact('client'));
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode(['data' => $clients]));
     }
 
     /**

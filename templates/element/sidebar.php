@@ -29,6 +29,13 @@
                         </p>','/Inspectors',['class'=>'nav-link '.$active,'escape'=>false]) ?>
                 </li>
                 <li class="nav-item">
+                    <?php $active = $title=='Availabilities'?'active':'' ?>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-calendar-check"></i>
+                        <p> 
+                            Availabilities
+                        </p>','/Availabilities',['class'=>'nav-link '.$active,'escape'=>false]) ?>
+                </li>
+                <li class="nav-item">
                     <?php $active = $title=='Clients'?'active':'' ?>
                     <?= $this->Html->link('<i class="nav-icon fas fa-users"></i>
                         <p>

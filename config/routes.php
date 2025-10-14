@@ -93,6 +93,39 @@ return function (RouteBuilder $routes): void {
             ]);
         });
 
+        $builder->scope('/Availabilities', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Availabilities', 'action' => 'index']);
+            $builder->connect('/index/{inspector_id}', [
+                'controller' => 'Availabilities',
+                'action' => 'index'
+            ], [
+                'pass' => ['inspector_id']
+            ]);
+            $builder->connect('/getAvailabilities', ['controller' => 'Availabilities', 'action' => 'getAvailabilities']);
+            $builder->connect('/getInspectorAvailabilities/{inspector_id}', [
+                'controller' => 'Availabilities',
+                'action' => 'getInspectorAvailabilities'
+            ], [
+                'pass' => ['inspector_id']
+            ]);
+            $builder->connect('/add', ['controller' => 'Availabilities', 'action' => 'add']);
+            $builder->connect('/editAvailabilities/{id}', [
+                'controller' => 'Availabilities',
+                'action' => 'editAvailabilities'
+            ], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', [
+                'controller' => 'Availabilities',
+                'action' => 'delete'
+            ], [
+                'pass' => ['id']
+            ]);
+
+            // Toggle availability (custom calendar action)
+            $builder->connect('/toggle', ['controller' => 'Availabilities', 'action' => 'toggle']);
+        });
+
         $builder->scope('/Inspectors', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Inspectors', 'action' => 'index']);
             $builder->connect('/getInspectors', ['controller' => 'Inspectors', 'action' => 'getInspectors']);
