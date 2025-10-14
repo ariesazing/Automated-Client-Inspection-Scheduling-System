@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2025 at 09:37 AM
+-- Generation Time: Oct 14, 2025 at 10:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,7 +62,8 @@ INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_availa
 (7, 4, '2025-10-16', 1, 'Regular working day'),
 (8, 4, '2025-10-17', 0, 'Annual leave'),
 (9, 4, '2025-10-18', 1, 'Regular working day'),
-(10, 4, '2025-10-19', 1, 'Regular working day');
+(10, 4, '2025-10-19', 1, 'Regular working day'),
+(11, 7, '2025-10-15', 1, 'Regular working day');
 
 -- --------------------------------------------------------
 
@@ -88,7 +89,8 @@ CREATE TABLE `clients` (
 
 INSERT INTO `clients` (`id`, `owner_name`, `establishment_name`, `address`, `type`, `risk_level`, `status`, `created_at`) VALUES
 (1, 'Nonie Pogi', 'Nonie Enterprise', 'Dubinan West, Santiago City', 'commercial', 'low', 'inactive', '2025-10-11 04:43:40'),
-(2, 'Kazuma Ichinose', 'Oolong Bar', 'Purok 9, Barangay Mizushi, Kyoto City', 'commercial', 'medium', 'active', '2025-10-13 01:36:42');
+(2, 'Kazuma Ichinose', 'Oolong Bar', 'Purok 9, Barangay Mizushi, Kyoto City', 'commercial', 'medium', 'active', '2025-10-13 01:36:42'),
+(3, 'Kaoruko Tsumugi', 'HoteCafe', 'Okoniyame, Daishi, Shinoya Prefecture', 'residential', 'low', 'active', '2025-10-14 01:05:15');
 
 -- --------------------------------------------------------
 
@@ -293,13 +295,13 @@ ALTER TABLE `audit_trail`
 -- AUTO_INCREMENT for table `availabilities`
 --
 ALTER TABLE `availabilities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `inspections`
