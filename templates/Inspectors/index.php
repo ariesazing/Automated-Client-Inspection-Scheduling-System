@@ -37,13 +37,13 @@
                     <label for="user-id">User</label>
                     <?= $this->Form->control('user_id',['class'=>'form-control','label'=>false]) ?>
                     <label for="name">Name</label>
-                    <?= $this->Form->control('name',['class'=>'form-control','label'=>false]) ?>
+                    <?= $this->Form->control('name',['class'=>'form-control','label'=>false,'empty' => false]) ?>
                    <label for="specialization">Specialization</label>
                     <?= $this->Form->control('specialization',['class'=>'form-control',
-                    'options'=>$this->Options->specialization(),'label'=>false]) ?>
+                    'options'=>$this->Options->specialization(),'label'=>false,'empty' => false]) ?>
                     <label for="status">Status</label>
                     <?= $this->Form->control('status',['class'=>'form-control',
-                    'options'=>$this->Options->inspector_status(),'label'=>false]) ?>
+                    'options'=>$this->Options->inspector_status(),'label'=>false,'empty' => false]) ?>
                 </div>
             </div>
             <div class="modal-footer">

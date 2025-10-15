@@ -84,6 +84,7 @@ class AvailabilitiesTable extends Table
 
     public function maintainAvailabilityWindow()
     {
+
         $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
         $inspectors = $inspectorsTable->find('all')->toArray();
 
@@ -117,8 +118,10 @@ class AvailabilitiesTable extends Table
                 }
             } else {
                 // Daily maintenance: add today's weekday if missing
-                if (in_array($today->dayOfWeek, $weekdays) &&
-                    !in_array($today->format('Y-m-d'), $existingDates)) {
+                if (
+                    in_array($today->dayOfWeek, $weekdays) &&
+                    !in_array($today->format('Y-m-d'), $existingDates)
+                ) {
                     $this->save($this->newEntity([
                         'inspector_id' => $inspector->id,
                         'available_date' => $today,
@@ -134,6 +137,21 @@ class AvailabilitiesTable extends Table
                 'available_date <' => $today
             ]);
         }
+        // 🔄 Update inspector status based on today's availability
+        $todayAvailability = $this->find()
+            ->where([
+                'inspector_id' => $inspector->id,
+                'available_date' => $today
+            ])
+            ->first();
+
+        if ($todayAvailability && $todayAvailability->is_available === false) {
+            $inspector->status = 'on_leave';
+        } else {
+            $inspector->status = 'available'; // or 'active' or whatever your default is
+        }
+
+        $inspectorsTable->save($inspector);
     }
 
 
