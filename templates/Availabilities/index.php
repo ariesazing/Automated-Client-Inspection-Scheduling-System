@@ -22,23 +22,24 @@
             <?= $this->Form->create($availability, ['id' => 'availabilities-form']) ?>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="is_available">Inspector Availability</label>
+                    <label for="is-available">Inspector Availability</label>
                     <?= $this->Form->control('is_available', [
                         'class' => 'form-control',
                         'options' => $this->Options->inspector_availability(),
-                        'label' => false
+                        'label' => false,
+                        'empty' => false
                     ]) ?>
                     <label for="reason">Reason</label>
                     <?= $this->Form->control('reason', ['class' => 'form-control', 'label' => false]) ?>
                 </div>
             </div>
+            <div class="modal-footer">
+                <?= $this->Form->control('id', ['type' => 'hidden', 'label' => false]) ?>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            <?= $this->Form->end() ?>
         </div>
-        <div class="modal-footer">
-            <?= $this->Form->control('id', ['type' => 'hidden', 'label' => false]) ?>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-        <?= $this->Form->end() ?>
     </div>
 </div>
 </div>

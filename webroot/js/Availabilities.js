@@ -4,9 +4,7 @@ $(function () {
 
     calendar.on('eventClick', function (info) {
         let id = info.event.id;
-        let inspector_id = info.event.extendedProps.inspector_id;
 
-        getInspectorAvailabilities(inspector_id);
         $.ajax({
             url: BASE_URL + '/api/Availabilities/editAvailabilities/' + id,
             type: "GET",
@@ -17,15 +15,12 @@ $(function () {
                 $('#reason').val(data.reason);
                 $('#id').val(data.id);
                 $('#availabilities-modal').modal('show');
+                $('#modal-title').html('Update ' + data.inspector.name);
             }
-            $('#modal-title').html('Update ' + data.inspector.name);
         })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 msgBox('error', errorThrown);
             });
-
-        console.log(info.event);
-        console.log('Inspector ID:', info.event.extendedProps.inspector_id);
     });
 
     $('#availabilities-form').on('submit', function (e) {
@@ -64,20 +59,43 @@ $(function () {
     $('#availabilities-modal').on('hidden.bs.modal', function () {
         $("#availabilities-form").trigger("reset");
         $("#id").val('');
+
+        if (calendar) {
+            calendar.refetchEvents();
+        }
     });
 });
 
+function getAvailabilities() {
+    $.ajax({
+        url: BASE_URL + '/api/Availabilities/getAvailabilities/',
+        type: 'GET',
+        dataType: 'json'
+    }).done(function (res) {
+        console.log('Availabilities loaded:', res.data);
+        if (calendar) {
+            calendar.refetchEvents();
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching availabilities:', errorThrown);
+    });
+}
+
+/*
 function getInspectorAvailabilities(inspector_id) {
     $.ajax({
         url: BASE_URL + '/api/Availabilities/getInspectorAvailabilities/' + inspector_id,
         type: 'GET',
         dataType: 'json'
     }).done(function (res) {
-        const availabilities = res.data;
+        const isAvailable = res.data.is_available;
+        $('#is_available').val(isAvailable ? '1' : '0'); 
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.error('Error fetching users:', errorThrown);
+        console.error('Error fetching inspector availabilities:', errorThrown);
     });
 }
+*/
+
 function initAvailabilityCalendar() {
     const calendarEl = $('#calendar')[0];
     if (!calendarEl) {
@@ -99,8 +117,9 @@ function initAvailabilityCalendar() {
             startTime: '08:00',
             endTime: '18:00',
         },
-
         events: function (fetchInfo, successCallback, failureCallback) {
+            console.log('Fetching calendar events...');
+
             $.ajax({
                 url: BASE_URL + '/api/Availabilities',
                 method: 'GET',

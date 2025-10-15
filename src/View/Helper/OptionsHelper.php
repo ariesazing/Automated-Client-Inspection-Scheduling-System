@@ -91,8 +91,8 @@ class OptionsHelper extends Helper
      public function inspector_availability()
     {
         $array = [
-            '1' => 'Available',
-            '0' => 'Unavailable'
+            true => 'Available',
+            false => 'Unavailable'
         ];
         return $array;
     }

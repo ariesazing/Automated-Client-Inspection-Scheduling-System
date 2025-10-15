@@ -99,6 +99,12 @@ class AvailabilitiesController extends AppController
             'contain' => ['Inspectors'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            /*
+            $data = $this->request->getData();
+            if (isset($data['is_available'])) {
+                $data['is_available'] = ($data['is_available'] === 'true') ? 1 : 0;
+            }
+            */
             $availability = $this->Availabilities->patchEntity($availability, $this->request->getData());
             if ($this->Availabilities->save($availability)) {
                 $result = ['status' => 'success', 'message' => 'The Inspector has been saved.'];
