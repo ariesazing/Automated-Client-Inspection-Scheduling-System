@@ -134,24 +134,24 @@ class AvailabilitiesTable extends Table
             // 🧹 Delete past availabilities
             $this->deleteAll([
                 'inspector_id' => $inspector->id,
-                'available_date <' => $today
+                'DATE(available_date) <' => $today->format('Y-m-d')
             ]);
-        }
-        // 🔄 Update inspector status based on today's availability
-        $todayAvailability = $this->find()
-            ->where([
-                'inspector_id' => $inspector->id,
-                'available_date' => $today
-            ])
-            ->first();
+            // 🔄 Update inspector status based on today's availability
+            $todayAvailability = $this->find()
+                ->where([
+                    'inspector_id' => $inspector->id,
+                    'available_date' => $today
+                ])
+                ->first();
 
-        if ($todayAvailability && $todayAvailability->is_available === false) {
-            $inspector->status = 'on_leave';
-        } else {
-            $inspector->status = 'available'; // or 'active' or whatever your default is
-        }
+            if ($todayAvailability && $todayAvailability->is_available === false) {
+                $inspector->status = 'on_leave';
+            } else {
+                $inspector->status = 'available'; // or 'active' or whatever your default is
+            }
 
-        $inspectorsTable->save($inspector);
+            $inspectorsTable->save($inspector);
+        }
     }
 
 
