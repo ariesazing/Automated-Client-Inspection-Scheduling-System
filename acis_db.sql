@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2025 at 10:49 AM
+-- Generation Time: Oct 15, 2025 at 09:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,12 +58,98 @@ CREATE TABLE `availabilities` (
 --
 
 INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_available`, `reason`) VALUES
-(6, 4, '2025-10-15', 1, 'Regular working day'),
-(7, 4, '2025-10-16', 1, 'Regular working day'),
-(8, 4, '2025-10-17', 0, 'Annual leave'),
-(9, 4, '2025-10-18', 1, 'Regular working day'),
-(10, 4, '2025-10-19', 1, 'Regular working day'),
-(11, 7, '2025-10-15', 1, 'Regular working day');
+(1, 4, '2025-10-15', 1, 'Initial auto-generated availability'),
+(2, 4, '2025-10-16', 1, 'Initial auto-generated availability'),
+(3, 4, '2025-10-17', 1, 'Initial auto-generated availability'),
+(4, 4, '2025-10-20', 1, 'Initial auto-generated availability'),
+(5, 4, '2025-10-21', 1, 'Initial auto-generated availability'),
+(6, 4, '2025-10-22', 1, 'Initial auto-generated availability'),
+(7, 4, '2025-10-23', 1, 'Initial auto-generated availability'),
+(8, 4, '2025-10-24', 1, 'Initial auto-generated availability'),
+(9, 4, '2025-10-27', 0, 'Personal Matter'),
+(10, 4, '2025-10-28', 1, 'Initial auto-generated availability'),
+(11, 4, '2025-10-29', 1, 'Initial auto-generated availability'),
+(12, 4, '2025-10-30', 1, 'Initial auto-generated availability'),
+(13, 4, '2025-10-31', 1, 'Initial auto-generated availability'),
+(14, 4, '2025-11-03', 1, 'Initial auto-generated availability'),
+(15, 4, '2025-11-04', 1, 'Initial auto-generated availability'),
+(16, 4, '2025-11-05', 1, 'Initial auto-generated availability'),
+(17, 4, '2025-11-06', 1, 'Initial auto-generated availability'),
+(18, 4, '2025-11-07', 1, 'Initial auto-generated availability'),
+(19, 4, '2025-11-10', 1, 'Initial auto-generated availability'),
+(20, 4, '2025-11-11', 1, 'Initial auto-generated availability'),
+(21, 4, '2025-11-12', 1, 'Initial auto-generated availability'),
+(22, 4, '2025-11-13', 1, 'Initial auto-generated availability'),
+(23, 4, '2025-11-14', 1, 'Initial auto-generated availability'),
+(24, 7, '2025-10-15', 1, 'Initial auto-generated availability'),
+(25, 7, '2025-10-16', 1, 'Initial auto-generated availability'),
+(26, 7, '2025-10-17', 1, 'Initial auto-generated availability'),
+(27, 7, '2025-10-20', 1, 'Initial auto-generated availability'),
+(28, 7, '2025-10-21', 1, 'Initial auto-generated availability'),
+(29, 7, '2025-10-22', 1, 'Initial auto-generated availability'),
+(30, 7, '2025-10-23', 1, 'Initial auto-generated availability'),
+(31, 7, '2025-10-24', 1, 'Initial auto-generated availability'),
+(32, 7, '2025-10-27', 1, 'Initial auto-generated availability'),
+(33, 7, '2025-10-28', 1, 'Initial auto-generated availability'),
+(34, 7, '2025-10-29', 1, 'Initial auto-generated availability'),
+(35, 7, '2025-10-30', 1, 'Initial auto-generated availability'),
+(36, 7, '2025-10-31', 1, 'Initial auto-generated availability'),
+(37, 7, '2025-11-03', 1, 'Initial auto-generated availability'),
+(38, 7, '2025-11-04', 1, 'Initial auto-generated availability'),
+(39, 7, '2025-11-05', 1, 'Initial auto-generated availability'),
+(40, 7, '2025-11-06', 1, 'Initial auto-generated availability'),
+(41, 7, '2025-11-07', 1, 'Initial auto-generated availability'),
+(42, 7, '2025-11-10', 1, 'Initial auto-generated availability'),
+(43, 7, '2025-11-11', 1, 'Initial auto-generated availability'),
+(44, 7, '2025-11-12', 1, 'Initial auto-generated availability'),
+(45, 7, '2025-11-13', 1, 'Initial auto-generated availability'),
+(46, 7, '2025-11-14', 1, 'Initial auto-generated availability'),
+(47, 9, '2025-10-15', 1, 'Initial auto-generated availability'),
+(48, 9, '2025-10-16', 1, 'Initial auto-generated availability'),
+(49, 9, '2025-10-17', 1, 'Initial auto-generated availability'),
+(50, 9, '2025-10-20', 1, 'Initial auto-generated availability'),
+(51, 9, '2025-10-21', 1, 'Initial auto-generated availability'),
+(52, 9, '2025-10-22', 1, 'Initial auto-generated availability'),
+(53, 9, '2025-10-23', 1, 'Initial auto-generated availability'),
+(54, 9, '2025-10-24', 1, 'Initial auto-generated availability'),
+(55, 9, '2025-10-27', 1, 'Initial auto-generated availability'),
+(56, 9, '2025-10-28', 1, 'Initial auto-generated availability'),
+(57, 9, '2025-10-29', 1, 'Initial auto-generated availability'),
+(58, 9, '2025-10-30', 1, 'Initial auto-generated availability'),
+(59, 9, '2025-10-31', 1, 'Initial auto-generated availability'),
+(60, 9, '2025-11-03', 1, 'Initial auto-generated availability'),
+(61, 9, '2025-11-04', 1, 'Initial auto-generated availability'),
+(62, 9, '2025-11-05', 1, 'Initial auto-generated availability'),
+(63, 9, '2025-11-06', 1, 'Initial auto-generated availability'),
+(64, 9, '2025-11-07', 1, 'Initial auto-generated availability'),
+(65, 9, '2025-11-10', 1, 'Initial auto-generated availability'),
+(66, 9, '2025-11-11', 1, 'Initial auto-generated availability'),
+(67, 9, '2025-11-12', 1, 'Initial auto-generated availability'),
+(68, 9, '2025-11-13', 1, 'Initial auto-generated availability'),
+(69, 9, '2025-11-14', 1, 'Initial auto-generated availability'),
+(70, 10, '2025-10-15', 1, 'Initial auto-generated availability'),
+(71, 10, '2025-10-16', 1, 'Initial auto-generated availability'),
+(72, 10, '2025-10-17', 1, 'Initial auto-generated availability'),
+(73, 10, '2025-10-20', 1, 'Initial auto-generated availability'),
+(74, 10, '2025-10-21', 1, 'Initial auto-generated availability'),
+(75, 10, '2025-10-22', 1, 'Initial auto-generated availability'),
+(76, 10, '2025-10-23', 1, 'Initial auto-generated availability'),
+(77, 10, '2025-10-24', 1, 'Initial auto-generated availability'),
+(78, 10, '2025-10-27', 1, 'Initial auto-generated availability'),
+(79, 10, '2025-10-28', 1, 'Initial auto-generated availability'),
+(80, 10, '2025-10-29', 1, 'Initial auto-generated availability'),
+(81, 10, '2025-10-30', 1, 'Initial auto-generated availability'),
+(82, 10, '2025-10-31', 1, 'Initial auto-generated availability'),
+(83, 10, '2025-11-03', 1, 'Initial auto-generated availability'),
+(84, 10, '2025-11-04', 1, 'Initial auto-generated availability'),
+(85, 10, '2025-11-05', 1, 'Initial auto-generated availability'),
+(86, 10, '2025-11-06', 1, 'Initial auto-generated availability'),
+(87, 10, '2025-11-07', 1, 'Initial auto-generated availability'),
+(88, 10, '2025-11-10', 1, 'Initial auto-generated availability'),
+(89, 10, '2025-11-11', 1, 'Initial auto-generated availability'),
+(90, 10, '2025-11-12', 1, 'Initial auto-generated availability'),
+(91, 10, '2025-11-13', 1, 'Initial auto-generated availability'),
+(92, 10, '2025-11-14', 1, 'Initial auto-generated availability');
 
 -- --------------------------------------------------------
 
@@ -153,7 +239,8 @@ CREATE TABLE `inspectors` (
 INSERT INTO `inspectors` (`id`, `user_id`, `name`, `specialization`, `status`, `created_at`) VALUES
 (4, 4, 'Aries Jeff Panganiban', 'general', 'on_inspection', '2025-10-10 09:46:15'),
 (7, 9, 'Kenneth Mendoza', 'general', 'available', '2025-10-10 09:59:47'),
-(9, 8, 'John Reneil Granada', 'hazardous', 'on_leave', '2025-10-10 20:00:05');
+(9, 8, 'John Reneil Granada', 'hazardous', 'on_leave', '2025-10-10 20:00:05'),
+(10, 2, 'Admin-Inspector4', 'mechanical', 'available', '2025-10-15 07:24:21');
 
 -- --------------------------------------------------------
 
@@ -295,7 +382,7 @@ ALTER TABLE `audit_trail`
 -- AUTO_INCREMENT for table `availabilities`
 --
 ALTER TABLE `availabilities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -319,7 +406,7 @@ ALTER TABLE `inspection_results`
 -- AUTO_INCREMENT for table `inspectors`
 --
 ALTER TABLE `inspectors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `notifications`

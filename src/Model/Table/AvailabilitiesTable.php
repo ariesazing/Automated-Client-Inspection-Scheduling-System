@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -6,7 +7,10 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Cake\I18n\FrozenDate;
+
 
 /**
  * Availabilities Model
@@ -77,6 +81,61 @@ class AvailabilitiesTable extends Table
 
         return $validator;
     }
+
+    public function maintainAvailabilityWindow()
+    {
+        $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
+        $inspectors = $inspectorsTable->find('all')->toArray();
+
+        $today = FrozenDate::today();
+        $endDate = $today->addMonth();
+        $weekdays = [1, 2, 3, 4, 5]; // Monday to Friday
+
+        foreach ($inspectors as $inspector) {
+            $existingDates = $this->find()
+                ->select(['available_date'])
+                ->where([
+                    'inspector_id' => $inspector->id,
+                    'available_date >=' => $today,
+                    'available_date <=' => $endDate
+                ])
+                ->extract('available_date')
+                ->map(fn($d) => $d->format('Y-m-d'))
+                ->toArray();
+
+            // First-time seeding: no records in the next month
+            if (empty($existingDates)) {
+                for ($date = $today; $date <= $endDate; $date = $date->addDay()) {
+                    if (in_array($date->dayOfWeek, $weekdays)) {
+                        $this->save($this->newEntity([
+                            'inspector_id' => $inspector->id,
+                            'available_date' => $date,
+                            'is_available' => 1,
+                            'reason' => 'Initial auto-generated availability'
+                        ]));
+                    }
+                }
+            } else {
+                // Daily maintenance: add today's weekday if missing
+                if (in_array($today->dayOfWeek, $weekdays) &&
+                    !in_array($today->format('Y-m-d'), $existingDates)) {
+                    $this->save($this->newEntity([
+                        'inspector_id' => $inspector->id,
+                        'available_date' => $today,
+                        'is_available' => 1,
+                        'reason' => 'Daily auto-generated availability'
+                    ]));
+                }
+            }
+
+            // 🧹 Delete past availabilities
+            $this->deleteAll([
+                'inspector_id' => $inspector->id,
+                'available_date <' => $today
+            ]);
+        }
+    }
+
 
     /**
      * Returns a rules checker object that will be used for validating
