@@ -84,59 +84,54 @@ class AvailabilitiesTable extends Table
 
     public function maintainAvailabilityWindow()
     {
-
         $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
         $inspectors = $inspectorsTable->find('all')->toArray();
 
         $today = FrozenDate::today();
-        $endDate = $today->addMonth();
         $weekdays = [1, 2, 3, 4, 5]; // Monday to Friday
 
         foreach ($inspectors as $inspector) {
+            // 🧹 Delete past availabilities
+            $this->deleteAll([
+                'inspector_id' => $inspector->id,
+                'available_date <' => $today
+            ]);
+
+            // Get existing future weekday availabilities (any status)
             $existingDates = $this->find()
                 ->select(['available_date'])
                 ->where([
                     'inspector_id' => $inspector->id,
-                    'available_date >=' => $today,
-                    'available_date <=' => $endDate
+                    'available_date >=' => $today
                 ])
                 ->extract('available_date')
                 ->map(fn($d) => $d->format('Y-m-d'))
                 ->toArray();
 
-            // First-time seeding: no records in the next month
-            if (empty($existingDates)) {
-                for ($date = $today; $date <= $endDate; $date = $date->addDay()) {
-                    if (in_array($date->dayOfWeek, $weekdays)) {
-                        $this->save($this->newEntity([
-                            'inspector_id' => $inspector->id,
-                            'available_date' => $date,
-                            'is_available' => 1,
-                            'reason' => 'Initial auto-generated availability'
-                        ]));
-                    }
-                }
-            } else {
-                // Daily maintenance: add today's weekday if missing
-                if (
-                    in_array($today->dayOfWeek, $weekdays) &&
-                    !in_array($today->format('Y-m-d'), $existingDates)
-                ) {
+            // Count how many weekday records already exist
+            $existingWeekdays = array_filter($existingDates, function ($date) use ($weekdays) {
+                return in_array((new FrozenDate($date))->dayOfWeek, $weekdays);
+            });
+
+            $needed = 22 - count($existingWeekdays);
+
+            // Add missing weekday records
+            $date = $today;
+            while ($needed > 0) {
+                $formatted = $date->format('Y-m-d');
+                if (in_array($date->dayOfWeek, $weekdays) && !in_array($formatted, $existingDates)) {
                     $this->save($this->newEntity([
                         'inspector_id' => $inspector->id,
-                        'available_date' => $today,
+                        'available_date' => $date,
                         'is_available' => 1,
-                        'reason' => 'Daily auto-generated availability'
+                        'reason' => 'Auto-generated to maintain 22-day window'
                     ]));
+                    $needed--;
                 }
+                $date = $date->addDay();
             }
 
-            // 🧹 Delete past availabilities
-            $this->deleteAll([
-                'inspector_id' => $inspector->id,
-                'DATE(available_date) <' => $today->format('Y-m-d')
-            ]);
-            // 🔄 Update inspector status based on today's availability
+            // Update inspector status based on today's availability
             $todayAvailability = $this->find()
                 ->where([
                     'inspector_id' => $inspector->id,
@@ -144,11 +139,9 @@ class AvailabilitiesTable extends Table
                 ])
                 ->first();
 
-            if ($todayAvailability && $todayAvailability->is_available === false) {
-                $inspector->status = 'on_leave';
-            } else {
-                $inspector->status = 'available'; // or 'active' or whatever your default is
-            }
+            $inspector->status = ($todayAvailability && $todayAvailability->is_available === false)
+                ? 'on_leave'
+                : 'available';
 
             $inspectorsTable->save($inspector);
         }
