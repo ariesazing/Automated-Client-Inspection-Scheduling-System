@@ -71,7 +71,7 @@ class OptionsHelper extends Helper
             'scheduled' => 'Scheduled',
             'completed' => 'Completed',
             'missed' => 'Missed',
-            'cancelled' => 'Cancelled',
+            'ongoing' => 'Ongoing',
         ];
         return $array;
     }
