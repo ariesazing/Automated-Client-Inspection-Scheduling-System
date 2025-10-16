@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -18,7 +19,7 @@ class InspectorsController extends AppController
      */
     public function index()
     {
-          $inspector = $this->Inspectors->newEmptyEntity();
+        $inspector = $this->Inspectors->newEmptyEntity();
 
         $this->set(compact('inspector'));
     }

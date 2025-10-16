@@ -65,6 +65,16 @@ class OptionsHelper extends Helper
         ];
         return $array;
     }
+    public function inspection_status()
+    {
+        $array = [
+            'scheduled' => 'Scheduled',
+            'completed' => 'Completed',
+            'missed' => 'Missed',
+            'cancelled' => 'Cancelled',
+        ];
+        return $array;
+    }
 
      public function client_type()
     {

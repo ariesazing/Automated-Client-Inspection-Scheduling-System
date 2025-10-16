@@ -121,8 +121,6 @@ return function (RouteBuilder $routes): void {
             ], [
                 'pass' => ['id']
             ]);
-
-            // Toggle availability (custom calendar action)
             $builder->connect('/toggle', ['controller' => 'Availabilities', 'action' => 'toggle']);
         });
 
@@ -134,6 +132,17 @@ return function (RouteBuilder $routes): void {
                 'pass' => ['id']
             ]);
             $builder->connect('/delete/{id}', ['controller' => 'Inspectors', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
+        $builder->scope('/Inspections', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Inspections', 'action' => 'index']);
+            $builder->connect('/getInspections', ['controller' => 'Inspections', 'action' => 'getInspections']);
+            $builder->connect('/add', ['controller' => 'Inspections', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Inspections', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Inspections', 'action' => 'delete'], [
                 'pass' => ['id']
             ]);
         });

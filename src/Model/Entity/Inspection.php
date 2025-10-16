@@ -39,7 +39,6 @@ class Inspection extends Entity
     protected $_accessible = [
         'client_id' => true,
         'inspector_id' => true,
-        'inspection_type' => true,
         'scheduled_date' => true,
         'actual_date' => true,
         'status' => true,

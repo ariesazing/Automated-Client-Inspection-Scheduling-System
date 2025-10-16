@@ -27,6 +27,12 @@
                         <p>
                             Inspectors
                         </p>','/Inspectors',['class'=>'nav-link '.$active,'escape'=>false]) ?>
+                </li><li class="nav-item">
+                    <?php $active = $title=='Inspections'?'active':'' ?>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-clipboard-list"></i>
+                        <p>
+                            Inspections
+                        </p>','/Inspections',['class'=>'nav-link '.$active,'escape'=>false]) ?>
                 </li>
                 <li class="nav-item">
                     <?php $active = $title=='Availabilities'?'active':'' ?>

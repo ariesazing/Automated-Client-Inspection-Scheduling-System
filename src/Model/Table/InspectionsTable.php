@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -7,6 +8,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\EventInterface;
+use Cake\Datasource\EntityInterface;
 
 /**
  * Inspections Model
@@ -62,6 +65,27 @@ class InspectionsTable extends Table
         ]);
     }
 
+    public function beforeSave(EventInterface $event, EntityInterface $entity, $options)
+    {
+        // Only if this is an existing record being updated
+        if (!$entity->isNew() && $entity->isDirty('scheduled_date')) {
+            $original = $entity->getOriginal('scheduled_date');
+            $new = $entity->scheduled_date;
+
+            // Get user info (optional if you're using Authentication)
+            $userId = $options['userId'] ?? null;
+
+            // Create the log entry
+            $log = $this->SchedulingLogs->newEntity([
+                'inspection_id' => $entity->id,
+                'old_date' => $original,
+                'new_date' => $new,
+                'reason' => 'Auto-log: schedule date changed',
+                'updated_by' => $userId,
+            ]);
+            $this->SchedulingLogs->save($log);
+        }
+    }
     /**
      * Default validation rules.
      *
@@ -79,17 +103,13 @@ class InspectionsTable extends Table
             ->notEmptyString('inspector_id');
 
         $validator
-            ->scalar('inspection_type')
-            ->allowEmptyString('inspection_type');
-
-        $validator
-            ->dateTime('scheduled_date')
+            ->date('scheduled_date')
             ->requirePresence('scheduled_date', 'create')
-            ->notEmptyDateTime('scheduled_date');
+            ->notEmptyDate('scheduled_date');
 
         $validator
-            ->dateTime('actual_date')
-            ->allowEmptyDateTime('actual_date');
+            ->date('actual_date')
+            ->allowEmptyDate('actual_date');
 
         $validator
             ->scalar('status')
@@ -98,10 +118,6 @@ class InspectionsTable extends Table
         $validator
             ->scalar('remarks')
             ->allowEmptyString('remarks');
-
-        $validator
-            ->scalar('risk_level')
-            ->allowEmptyString('risk_level');
 
         $validator
             ->dateTime('created_at')
