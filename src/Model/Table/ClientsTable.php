@@ -115,19 +115,16 @@ class ClientsTable extends Table
             $existing = $inspectionsTable->find()
                 ->where(['client_id' => $clientId])
                 ->first();
-
             if ($existing) {
                 \Cake\Log\Log::info("✅ Inspection already exists: #{$existing->id}");
                 return true;
             }
 
             // 2. Get client data
-            $clientsTable = TableRegistry::getTableLocator()->get('Clients');
-            $client = $clientsTable->get($clientId);
-            \Cake\Log\Log::info("✅ Client found: #{$client->id} - {$client->establishment_name}, Type: {$client->type}");
+            $client = $this->get($clientId);
+            $type = strtolower($client->type);
+            \Cake\Log\Log::info("✅ Client found: #{$client->id} - {$client->establishment_name}, Type: {$type}");
 
-            // 3. Find eligible inspectors based on specialization
-            $type = $client->type;
             $coverage = [
                 'general' => ['residential', 'commercial'],
                 'mechanical' => ['industrial', 'storage'],
@@ -136,19 +133,17 @@ class ClientsTable extends Table
                 'hazardous' => ['industrial', 'storage', 'miscellaneous']
             ];
 
-            $inspectors = TableRegistry::getTableLocator()->get('Inspectors');
+            $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
+            $availabilitiesTable = TableRegistry::getTableLocator()->get('Availabilities');
 
-            // Find available inspectors with matching specialization
-            $eligibleInspectors = $inspectors->find()
+            // 3. Find eligible inspectors
+            $eligibleInspectors = $inspectorsTable->find()
                 ->where(['status' => 'available'])
                 ->toArray();
 
             $candidates = [];
             foreach ($eligibleInspectors as $inspector) {
-                if (
-                    isset($coverage[$inspector->specialization]) &&
-                    in_array($type, $coverage[$inspector->specialization])
-                ) {
+                if (isset($coverage[$inspector->specialization]) && in_array($type, $coverage[$inspector->specialization])) {
                     $candidates[] = $inspector;
                     \Cake\Log\Log::info("🎯 Eligible inspector: #{$inspector->id} - {$inspector->specialization}");
                 }
@@ -156,61 +151,61 @@ class ClientsTable extends Table
 
             if (empty($candidates)) {
                 \Cake\Log\Log::warning("❌ No eligible inspectors found for client type: {$type}");
-                return false; // Don't create inspection if no matching inspectors
+                return false;
             }
 
-            // 4. Find the best candidate (least busy)
-            $inspectorLoad = $inspectionsTable->find()
-                ->select(['inspector_id', 'count' => $inspectionsTable->find()->func()->count('*')])
-                ->where(['scheduled_date >=' => FrozenDate::today()])
-                ->group('inspector_id')
-                ->combine('inspector_id', 'count')
-                ->toArray();
-
-            usort($candidates, function ($a, $b) use ($inspectorLoad) {
-                $loadA = $inspectorLoad[$a->id] ?? 0;
-                $loadB = $inspectorLoad[$b->id] ?? 0;
-                return $loadA <=> $loadB;
-            });
-
-            // 5. Find available date for the best candidate
-            $availabilities = TableRegistry::getTableLocator()->get('Availabilities');
+            // 4. Try to schedule inspection in the earliest available slot respecting max 2 per day
             $selectedInspector = null;
-            $availableDate = null;
+            $selectedAvailability = null;
 
             foreach ($candidates as $inspector) {
-                $available = $availabilities->find()
+                // Get available slots from today onwards
+                $slots = $availabilitiesTable->find()
                     ->where([
                         'inspector_id' => $inspector->id,
                         'is_available' => true,
-                        'available_date >=' => FrozenDate::today(),
+                        'available_date >=' => FrozenDate::today()
                     ])
                     ->order(['available_date' => 'ASC'])
-                    ->first();
+                    ->toArray();
 
-                if ($available) {
-                    $selectedInspector = $inspector;
-                    $availableDate = $available->available_date;
-                    \Cake\Log\Log::info("✅ Found availability for inspector #{$inspector->id} on {$availableDate}");
-                    break;
+                foreach ($slots as $slot) {
+                    $date = $slot->available_date;
+
+                    // Count inspections for this inspector on this specific date
+                    $inspectionsOnDate = $inspectionsTable->find()
+                        ->where([
+                            'inspector_id' => $inspector->id,
+                            'scheduled_date' => $date
+                        ])
+                        ->count();
+
+                    \Cake\Log\Log::info("Inspector #{$inspector->id} has {$inspectionsOnDate}/2 inspections on {$date}");
+
+                    if ($inspectionsOnDate < 2) {
+                        $selectedInspector = $inspector;
+                        $selectedAvailability = $slot;
+                        \Cake\Log\Log::info("✅ Found slot for inspector #{$inspector->id} on {$date} ({$inspectionsOnDate}/2 inspections)");
+                        break 2; // Break both loops
+                    }
                 }
             }
 
-            if (!$selectedInspector || !$availableDate) {
-                \Cake\Log\Log::warning("❌ No available dates found for eligible inspectors");
-                return false; // Don't create inspection if no available dates
+            if (!$selectedInspector || !$selectedAvailability) {
+                \Cake\Log\Log::warning("❌ No available dates found within capacity limits");
+                return false;
             }
 
-            // 6. Reserve the availability
-            $available->is_available = false;
-            $available->reason = 'Auto-assigned for inspection';
-            $availabilities->save($available);
+            // 5. Reserve the availability
+            $selectedAvailability->is_available = false;
+            $selectedAvailability->reason = 'Auto-assigned for inspection';
+            $availabilitiesTable->save($selectedAvailability);
 
-            // 7. Create the inspection with BOTH required fields
+            // 6. Create the inspection
             $inspectionData = [
                 'client_id' => $clientId,
                 'inspector_id' => $selectedInspector->id,
-                'scheduled_date' => $availableDate,
+                'scheduled_date' => $selectedAvailability->available_date,
                 'status' => 'scheduled'
             ];
 
@@ -218,16 +213,10 @@ class ClientsTable extends Table
 
             $inspection = $inspectionsTable->newEntity($inspectionData);
 
-            if ($inspection->hasErrors()) {
-                \Cake\Log\Log::error("❌ VALIDATION ERRORS: " . json_encode($inspection->getErrors()));
-                return false;
-            }
-
             $result = $inspectionsTable->save($inspection);
 
             if ($result) {
-                \Cake\Log\Log::info("🎉 SUCCESS! Inspection created with ID: #{$inspection->id}");
-                \Cake\Log\Log::info("📊 Inspector: #{$selectedInspector->id}, Date: {$availableDate}");
+                \Cake\Log\Log::info("🎉 SUCCESS! Inspection #{$inspection->id} created for {$selectedAvailability->available_date}");
                 return true;
             } else {
                 \Cake\Log\Log::error("💥 FAILED! Could not save inspection");
@@ -238,6 +227,7 @@ class ClientsTable extends Table
             return false;
         }
     }
+
 
 
     /**

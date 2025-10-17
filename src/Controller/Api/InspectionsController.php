@@ -54,11 +54,18 @@ class InspectionsController extends AppController
             // Only auto-assign if inspector_id is empty/being cleared AND client exists
             $data = $this->request->getData();
             if (empty($data['inspector_id']) && !empty($inspection->client_id)) {
-                $assignment = $this->Inspections->autoAssignAndSchedule($inspection->client_id);
-                if ($assignment) {
-                    $inspection->inspector_id = $assignment['inspector_id'];
-                    $inspection->scheduled_date = $assignment['scheduled_date'];
+                // Use the ClientsTable method instead - THE WORKING ONE
+                $clientsTable = $this->getTableLocator()->get('Clients');
+                $success = $clientsTable->fullAutoCreateForClient($this->Inspections, $inspection->client_id);
+                
+                if ($success) {
+                    $result = ['status' => 'success', 'message' => 'The inspection has been updated with auto-assignment.'];
+                } else {
+                    $result = ['status' => 'error', 'message' => 'The inspection could not be auto-assigned. Please try again.'];
                 }
+                
+                return $this->response->withType('application/json')
+                    ->withStringBody(json_encode($result));
             }
 
             $success = $this->Inspections->save($inspection, ['userId' => $userId]);
@@ -102,65 +109,29 @@ class InspectionsController extends AppController
             ->withStringBody(json_encode($result));
     }
 
-    /*public function forceCreate($clientId = null)
-    {
-        \Cake\Log\Log::info("=== FORCE CREATING INSPECTION FOR CLIENT #{$clientId} ===");
-
-        $inspectionsTable = $this->getTableLocator()->get('Inspections');
-
-        // Create WITHOUT inspector_id to avoid foreign key constraint
-        $inspection = $inspectionsTable->newEntity([
-            'client_id' => $clientId,
-            'status' => 'pending',
-            'created' => new \Cake\I18n\FrozenTime(),
-            'modified' => new \Cake\I18n\FrozenTime()
-            // NO inspector_id field!
-        ]);
-
-        $result = $inspectionsTable->save($inspection);
-
-        if ($result) {
-            \Cake\Log\Log::info("🎉 FORCE CREATE SUCCESS! ID: #{$inspection->id}");
-            return $this->response->withType('application/json')
-                ->withStringBody(json_encode([
-                    'success' => true,
-                    'message' => 'Inspection created with ID: ' . $inspection->id,
-                    'inspection_id' => $inspection->id
-                ]));
-        } else {
-            \Cake\Log\Log::error("💥 FORCE CREATE FAILED: " . json_encode($inspection->getErrors()));
-            return $this->response->withType('application/json')
-                ->withStringBody(json_encode([
-                    'success' => false,
-                    'message' => 'Failed to create inspection',
-                    'errors' => $inspection->getErrors()
-                ]));
-        }
-    }
-        */
-
     public function autoCreate($clientId = null)
     {
         if ($clientId) {
-            // Create for specific client
-            $success = $this->Inspections->autoCreateForClient($clientId);
+            // Create for specific client using the WORKING method
+            $clientsTable = $this->getTableLocator()->get('Clients');
+            $success = $clientsTable->fullAutoCreateForClient($this->Inspections, $clientId);
             $message = $success
                 ? 'Inspection auto-created for client'
                 : 'Failed to auto-create inspection';
-        } else {
-            // Create for all clients missing inspections
-            $results = $this->Inspections->autoCreateForAllClients();
-            $message = sprintf(
-                'Created: %d, Failed: %d, Existing: %d',
-                $results['created'],
-                $results['failed'],
-                $results['existing']
-            );
+                
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode([
+                    'status' => $success ? 'success' : 'error',
+                    'message' => $message
+                ]));
         }
-
+        
+        // If you need bulk creation, you'll need to implement it using the working method
+        $message = "Bulk auto-creation not implemented. Use individual client creation.";
+        
         return $this->response->withType('application/json')
             ->withStringBody(json_encode([
-                'status' => $success ? 'success' : 'error',
+                'status' => 'error',
                 'message' => $message
             ]));
     }

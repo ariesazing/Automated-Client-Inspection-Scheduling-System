@@ -39,7 +39,7 @@ class InspectionsTable extends Table
         ]);
     }
 
-    public function autoAssignAndSchedule(int $clientId): ?array
+    /*public function autoAssignAndSchedule(int $clientId): ?array
     {
         $clients = TableRegistry::getTableLocator()->get('Clients');
         $inspectors = TableRegistry::getTableLocator()->get('Inspectors');
@@ -56,6 +56,7 @@ class InspectionsTable extends Table
             'Hazardous' => ['Industrial', 'Storage', 'Miscellaneous']
         ];
 
+        // Step 1: Filter eligible inspectors based on status and specialization coverage
         $eligibleInspectors = $inspectors->find()
             ->where(['status' => 'available'])
             ->toArray();
@@ -72,46 +73,55 @@ class InspectionsTable extends Table
             return null;
         }
 
+        // Step 2: Get scheduled load per inspector per date
         $inspectorLoad = $this->find()
-            ->select(['inspector_id', 'count' => $this->find()->func()->count('*')])
+            ->select(['inspector_id', 'scheduled_date', 'count' => $this->find()->func()->count('*')])
             ->where(['scheduled_date >=' => FrozenDate::today()])
-            ->group('inspector_id')
-            ->combine('inspector_id', 'count')
+            ->group(['inspector_id', 'scheduled_date'])
+            ->combine('inspector_id', 'count', 'scheduled_date') // [inspector_id][date] => count
             ->toArray();
 
+        // Step 3: Sort inspectors by total future load
         usort($candidates, function ($a, $b) use ($inspectorLoad) {
-            $loadA = $inspectorLoad[$a->id] ?? 0;
-            $loadB = $inspectorLoad[$b->id] ?? 0;
+            $loadA = array_sum($inspectorLoad[$a->id] ?? []);
+            $loadB = array_sum($inspectorLoad[$b->id] ?? []);
             return $loadA <=> $loadB;
         });
 
+        // Step 4: Find the earliest available date for each candidate respecting max 2 inspections/day
         foreach ($candidates as $inspector) {
-            $available = $availabilities->find()
+            $availableSlots = $availabilities->find()
                 ->where([
                     'inspector_id' => $inspector->id,
                     'is_available' => true,
-                    'available_date >=' => FrozenDate::today(),
+                    'available_date >=' => FrozenDate::today()
                 ])
                 ->order(['available_date' => 'ASC'])
-                ->first();
+                ->toArray();
 
-            if ($available) {
-                $available->is_available = false;
-                $available->reason = 'Auto-assigned for inspection';
-                $availabilities->save($available);
+            foreach ($availableSlots as $slot) {
+                $dateStr = $slot->available_date->format('Y-m-d');
+                $currentLoad = $inspectorLoad[$inspector->id][$dateStr] ?? 0;
 
-                \Cake\Log\Log::info("Assigned inspector #{$inspector->id} to client #{$clientId} for {$available->available_date}");
+                if ($currentLoad < 2) { // Max 2 inspections per day
+                    $slot->is_available = false;
+                    $slot->reason = 'Auto-assigned for inspection';
+                    $availabilities->save($slot);
 
-                return [
-                    'inspector_id' => $inspector->id,
-                    'scheduled_date' => $available->available_date
-                ];
+                    \Cake\Log\Log::info("Assigned inspector #{$inspector->id} to client #{$clientId} on {$dateStr}");
+
+                    return [
+                        'inspector_id' => $inspector->id,
+                        'scheduled_date' => $slot->available_date
+                    ];
+                }
             }
         }
 
         \Cake\Log\Log::warning("No available date found for matched inspectors for client #{$clientId}");
         return null;
     }
+*/
 
     /*public function autoCreateForAllClients(): array
     {
@@ -144,6 +154,7 @@ class InspectionsTable extends Table
         return $results;
     }*/
 
+    /*
     public function autoCreateForClient(int $clientId): bool
     {
         try {
@@ -266,24 +277,26 @@ class InspectionsTable extends Table
             return false;
         }
     }
+    */
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
+        /*
         if (
             $entity->isNew() &&
             empty($entity->inspector_id) &&
             !empty($entity->client_id)
         ) {
-            $assignment = $this->autoAssignAndSchedule($entity->client_id);
-            if (!empty($assignment)) {
-                $entity->inspector_id = $assignment['inspector_id'];
-                $entity->scheduled_date = $assignment['scheduled_date'];
-                $entity->status = 'scheduled';
-            } else {
-                $entity->status = 'pending';
-            }
-        }
+            // Use the ClientsTable method instead
+            $clientsTable = TableRegistry::getTableLocator()->get('Clients');
+            $inspectionsTable = TableRegistry::getTableLocator()->get('Inspections');
+            $clientsTable->fullAutoCreateForClient($inspectionsTable, $entity->client_id);
 
+            // Since fullAutoCreateForClient creates the inspection directly,
+            // we should probably return false to prevent duplicate saves
+            return false;
+        }
+        */
         if (!$entity->isNew() && $entity->isDirty('scheduled_date')) {
             $logsTable = TableRegistry::getTableLocator()->get('SchedulingLogs');
             $logsTable->save($logsTable->newEntity([
