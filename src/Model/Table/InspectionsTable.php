@@ -113,6 +113,160 @@ class InspectionsTable extends Table
         return null;
     }
 
+    /*public function autoCreateForAllClients(): array
+    {
+        $clientsTable = TableRegistry::getTableLocator()->get('Clients');
+        $allClients = $clientsTable->find()->select(['id'])->toArray();
+
+        $results = [
+            'created' => 0,
+            'failed' => 0,
+            'existing' => 0
+        ];
+
+        foreach ($allClients as $client) {
+            $existing = $this->find()
+                ->where(['client_id' => $client->id])
+                ->first();
+
+            if ($existing) {
+                $results['existing']++;
+                continue;
+            }
+
+            if ($this->autoCreateForClient($client->id)) {
+                $results['created']++;
+            } else {
+                $results['failed']++;
+            }
+        }
+
+        return $results;
+    }*/
+
+    public function autoCreateForClient(int $clientId): bool
+    {
+        try {
+            \Cake\Log\Log::info("Starting autoCreateForClient for client #{$clientId}");
+
+            // Check if inspection already exists for this client
+            $existing = $this->find()
+                ->where(['client_id' => $clientId])
+                ->first();
+
+            if ($existing) {
+                \Cake\Log\Log::info("Inspection already exists for client #{$clientId}");
+                return true;
+            }
+
+            $clients = TableRegistry::getTableLocator()->get('Clients');
+            $client = $clients->get($clientId);
+            \Cake\Log\Log::info("Client found: #{$clientId}, type: {$client->establishment_type}");
+
+            $type = $client->establishment_type;
+
+            $coverage = [
+                'General' => ['Residential', 'Commercial'],
+                'Mechanical' => ['Industrial', 'Storage'],
+                'Electrical' => ['Residential', 'Commercial', 'Industrial', 'Storage', 'Assembly', 'Miscellaneous'],
+                'Structural' => ['Commercial', 'Assembly'],
+                'Hazardous' => ['Industrial', 'Storage', 'Miscellaneous']
+            ];
+
+            $inspectors = TableRegistry::getTableLocator()->get('Inspectors');
+            $eligibleInspectors = $inspectors->find()
+                ->where(['status' => 'available'])
+                ->toArray();
+
+            \Cake\Log\Log::info("Found " . count($eligibleInspectors) . " available inspectors");
+
+            $candidates = [];
+            foreach ($eligibleInspectors as $inspector) {
+                if (
+                    isset($coverage[$inspector->specialization]) &&
+                    in_array($type, $coverage[$inspector->specialization])
+                ) {
+                    $candidates[] = $inspector;
+                }
+            }
+
+            \Cake\Log\Log::info("Found " . count($candidates) . " eligible inspectors for type '{$type}'");
+
+            if (empty($candidates)) {
+                \Cake\Log\Log::warning("No inspector matches for client #{$clientId} with type '{$type}'");
+
+                // Create inspection without inspector
+                $inspection = $this->newEntity([
+                    'client_id' => $clientId,
+                    'status' => 'pending',
+                ]);
+
+                $result = $this->save($inspection);
+                \Cake\Log\Log::info("Created inspection without inspector: " . ($result ? 'success' : 'failed'));
+                return (bool)$result;
+            }
+
+            // ... rest of your assignment logic ...
+
+            foreach ($candidates as $inspector) {
+                $availabilities = TableRegistry::getTableLocator()->get('Availabilities');
+                $available = $availabilities->find()
+                    ->where([
+                        'inspector_id' => $inspector->id,
+                        'is_available' => true,
+                        'available_date >=' => FrozenDate::today(),
+                    ])
+                    ->order(['available_date' => 'ASC'])
+                    ->first();
+
+                if ($available) {
+                    \Cake\Log\Log::info("Found available slot for inspector #{$inspector->id} on {$available->available_date}");
+
+                    $available->is_available = false;
+                    $available->reason = 'Auto-assigned for inspection';
+
+                    if ($availabilities->save($available)) {
+                        \Cake\Log\Log::info("Saved availability update for inspector #{$inspector->id}");
+
+                        // Create the inspection
+                        $inspection = $this->newEntity([
+                            'client_id' => $clientId,
+                            'inspector_id' => $inspector->id,
+                            'scheduled_date' => $available->available_date,
+                            'status' => 'scheduled',
+                        ]);
+
+                        $result = $this->save($inspection);
+                        \Cake\Log\Log::info("Created inspection with inspector: " . ($result ? 'success' : 'failed'));
+
+                        if (!$result) {
+                            \Cake\Log\Log::error("Inspection save errors: " . json_encode($inspection->getErrors()));
+                        }
+
+                        return (bool)$result;
+                    } else {
+                        \Cake\Log\Log::error("Failed to save availability for inspector #{$inspector->id}");
+                    }
+                }
+            }
+
+            \Cake\Log\Log::warning("No available dates found for matched inspectors for client #{$clientId}");
+
+            // Create inspection without scheduled date
+            $inspection = $this->newEntity([
+                'client_id' => $clientId,
+                'status' => 'pending',
+            ]);
+
+            $result = $this->save($inspection);
+            \Cake\Log\Log::info("Created pending inspection: " . ($result ? 'success' : 'failed'));
+            return (bool)$result;
+        } catch (\Exception $e) {
+            \Cake\Log\Log::error("Auto-creation failed for client #{$clientId}: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function beforeSave(EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
         if (
