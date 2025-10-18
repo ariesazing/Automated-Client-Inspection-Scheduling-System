@@ -54,16 +54,16 @@ class InspectionsController extends AppController
             // Only auto-assign if inspector_id is empty/being cleared AND client exists
             $data = $this->request->getData();
             if (empty($data['inspector_id']) && !empty($inspection->client_id)) {
-                // Use the ClientsTable method instead - THE WORKING ONE
+                // Use the Behavior approach
                 $clientsTable = $this->getTableLocator()->get('Clients');
-                $success = $clientsTable->fullAutoCreateForClient($this->Inspections, $inspection->client_id);
-                
+                $success = $clientsTable->behaviors()->get('AutoSchedule')->autoCreateInspection($inspection->client_id);
+
                 if ($success) {
                     $result = ['status' => 'success', 'message' => 'The inspection has been updated with auto-assignment.'];
                 } else {
                     $result = ['status' => 'error', 'message' => 'The inspection could not be auto-assigned. Please try again.'];
                 }
-                
+
                 return $this->response->withType('application/json')
                     ->withStringBody(json_encode($result));
             }
@@ -94,6 +94,32 @@ class InspectionsController extends AppController
             ]));
     }
 
+    public function autoCreate($clientId = null)
+    {
+        if ($clientId) {
+            // Use the Behavior approach
+            $clientsTable = $this->getTableLocator()->get('Clients');
+            $success = $clientsTable->behaviors()->get('AutoSchedule')->autoCreateInspection($clientId);
+            $message = $success
+                ? 'Inspection auto-created for client'
+                : 'Failed to auto-create inspection';
+
+            return $this->response->withType('application/json')
+                ->withStringBody(json_encode([
+                    'status' => $success ? 'success' : 'error',
+                    'message' => $message
+                ]));
+        }
+
+        $message = "Bulk auto-creation not implemented. Use individual client creation.";
+
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode([
+                'status' => 'error',
+                'message' => $message
+            ]));
+    }
+
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -107,32 +133,5 @@ class InspectionsController extends AppController
 
         return $this->response->withType('application/json')
             ->withStringBody(json_encode($result));
-    }
-
-    public function autoCreate($clientId = null)
-    {
-        if ($clientId) {
-            // Create for specific client using the WORKING method
-            $clientsTable = $this->getTableLocator()->get('Clients');
-            $success = $clientsTable->fullAutoCreateForClient($this->Inspections, $clientId);
-            $message = $success
-                ? 'Inspection auto-created for client'
-                : 'Failed to auto-create inspection';
-                
-            return $this->response->withType('application/json')
-                ->withStringBody(json_encode([
-                    'status' => $success ? 'success' : 'error',
-                    'message' => $message
-                ]));
-        }
-        
-        // If you need bulk creation, you'll need to implement it using the working method
-        $message = "Bulk auto-creation not implemented. Use individual client creation.";
-        
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode([
-                'status' => 'error',
-                'message' => $message
-            ]));
     }
 }

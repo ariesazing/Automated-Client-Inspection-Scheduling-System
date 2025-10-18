@@ -49,6 +49,7 @@ class ClientsTable extends Table
         $this->setDisplayField('owner_name');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->addBehavior('AutoSchedule'); // Add the behavior
 
         $this->hasMany('Inspections', [
             'foreignKey' => 'client_id',
@@ -58,12 +59,12 @@ class ClientsTable extends Table
 
     public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
     {
-        if ($entity->isNew()) {
-            // Store the client ID for delayed processing
-            $this->queueInspectionCreation($entity->id);
+        if ($entity->isNew()) { 
+            $this->behaviors()->get('AutoSchedule')->queueInspectionCreation($entity->id);
         }
     }
 
+    /*
     private function queueInspectionCreation(int $clientId)
     {
         // Use a simple file-based queue to avoid transaction issues
@@ -73,7 +74,6 @@ class ClientsTable extends Table
         // Process the queue immediately after request
         register_shutdown_function([$this, 'processInspectionQueue']);
     }
-
     public function processInspectionQueue()
     {
         $queueFile = LOGS . 'inspection_queue.txt';
@@ -105,7 +105,6 @@ class ClientsTable extends Table
             }
         }
     }
-
     private function fullAutoCreateForClient($inspectionsTable, int $clientId)
     {
         \Cake\Log\Log::info("🚨 STARTING AUTO-CREATION FOR CLIENT #{$clientId}");
@@ -227,7 +226,7 @@ class ClientsTable extends Table
             return false;
         }
     }
-
+    */
 
 
     /**

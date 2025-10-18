@@ -51,6 +51,7 @@ class AvailabilitiesTable extends Table
             'foreignKey' => 'inspector_id',
             'joinType' => 'INNER',
         ]);
+        $this->addBehavior('Availability');
     }
 
     /**
@@ -82,7 +83,7 @@ class AvailabilitiesTable extends Table
         return $validator;
     }
 
-    public function maintainAvailabilityWindow()
+    /*public function maintainAvailabilityWindow()
     {
         $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
         $inspectors = $inspectorsTable->find('all')->toArray();
@@ -145,7 +146,7 @@ class AvailabilitiesTable extends Table
 
             $inspectorsTable->save($inspector);
         }
-    }
+    }*/
 
 
     /**
