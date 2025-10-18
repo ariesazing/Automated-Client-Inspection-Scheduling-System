@@ -14,7 +14,7 @@ class AutoScheduleBehavior extends Behavior
 {
     protected $_defaultConfig = [
         'inspectionsTable' => 'Inspections',
-        'inspectorsTable' => 'Inspectors', 
+        'inspectorsTable' => 'Inspectors',
         'availabilitiesTable' => 'Availabilities',
         'maxInspectionsPerDay' => 2
     ];
@@ -22,26 +22,26 @@ class AutoScheduleBehavior extends Behavior
     public function autoCreateInspection(int $clientId): bool
     {
         $inspectionsTable = TableRegistry::getTableLocator()->get($this->getConfig('inspectionsTable'));
-        
+
         Log::info("🚨 STARTING AUTO-CREATION FOR CLIENT #{$clientId}");
 
         try {
-            // Check if inspection already exists
+            // Check if inspection already exists (existing code)
             $existing = $inspectionsTable->find()
                 ->where(['client_id' => $clientId])
                 ->first();
-                
+
             if ($existing) {
                 Log::info("✅ Inspection already exists: #{$existing->id}");
                 return true;
             }
 
-            // Get client data
+            // Get client data (existing code)
             $client = $this->table()->get($clientId);
             $type = strtolower($client->type);
             Log::info("✅ Client found: #{$client->id} - {$client->establishment_name}, Type: {$type}");
 
-            // Find eligible inspectors
+            // Find eligible inspectors (existing code)
             $coverage = [
                 'general' => ['residential', 'commercial'],
                 'mechanical' => ['industrial', 'storage'],
@@ -59,8 +59,10 @@ class AutoScheduleBehavior extends Behavior
 
             $candidates = [];
             foreach ($eligibleInspectors as $inspector) {
-                if (isset($coverage[$inspector->specialization]) && 
-                    in_array($type, $coverage[$inspector->specialization])) {
+                if (
+                    isset($coverage[$inspector->specialization]) &&
+                    in_array($type, $coverage[$inspector->specialization])
+                ) {
                     $candidates[] = $inspector;
                     Log::info("🎯 Eligible inspector: #{$inspector->id} - {$inspector->specialization}");
                 }
@@ -71,12 +73,14 @@ class AutoScheduleBehavior extends Behavior
                 return false;
             }
 
-            // Find available slot
+            // 🎯 FIXED ALGORITHM: Date-by-date progression
             $selectedInspector = null;
             $selectedAvailability = null;
 
+            // Get all available weekday slots for all candidates
+            $allSlots = [];
             foreach ($candidates as $inspector) {
-                $slots = $availabilitiesTable->find()
+                $inspectorSlots = $availabilitiesTable->find()
                     ->where([
                         'inspector_id' => $inspector->id,
                         'is_available' => true,
@@ -85,9 +89,34 @@ class AutoScheduleBehavior extends Behavior
                     ->order(['available_date' => 'ASC'])
                     ->toArray();
 
-                foreach ($slots as $slot) {
-                    $date = $slot->available_date;
-                    
+                foreach ($inspectorSlots as $slot) {
+                    $allSlots[] = [
+                        'inspector' => $inspector,
+                        'slot' => $slot,
+                        'date' => $slot->available_date
+                    ];
+                }
+            }
+
+            // Group slots by date
+            $slotsByDate = [];
+            foreach ($allSlots as $slotInfo) {
+                $dateKey = $slotInfo['date']->format('Y-m-d');
+                $slotsByDate[$dateKey][] = $slotInfo;
+            }
+
+            // Sort dates chronologically
+            ksort($slotsByDate);
+
+            // Find first date with available capacity
+            foreach ($slotsByDate as $date => $dateSlots) {
+                Log::info("🔍 Checking date: {$date}");
+
+                // Check each slot for this date
+                foreach ($dateSlots as $slotInfo) {
+                    $inspector = $slotInfo['inspector'];
+                    $slot = $slotInfo['slot'];
+
                     $inspectionsOnDate = $inspectionsTable->find()
                         ->where([
                             'inspector_id' => $inspector->id,
@@ -95,13 +124,13 @@ class AutoScheduleBehavior extends Behavior
                         ])
                         ->count();
 
-                    Log::info("Inspector #{$inspector->id} has {$inspectionsOnDate}/2 inspections on {$date}");
+                    Log::info("   Inspector #{$inspector->id} has {$inspectionsOnDate}/{$this->getConfig('maxInspectionsPerDay')} inspections on {$date}");
 
                     if ($inspectionsOnDate < $this->getConfig('maxInspectionsPerDay')) {
                         $selectedInspector = $inspector;
                         $selectedAvailability = $slot;
-                        Log::info("✅ Found slot for inspector #{$inspector->id} on {$date} ({$inspectionsOnDate}/2 inspections)");
-                        break 2;
+                        Log::info("✅ Found available slot for inspector #{$inspector->id} on {$date} ({$inspectionsOnDate}/{$this->getConfig('maxInspectionsPerDay')} inspections)");
+                        break 2; // Break out of both loops
                     }
                 }
             }
@@ -111,7 +140,7 @@ class AutoScheduleBehavior extends Behavior
                 return false;
             }
 
-            // Reserve availability and create inspection
+            // Reserve availability and create inspection (existing code)
             $selectedAvailability->is_available = false;
             $selectedAvailability->reason = 'Auto-assigned for inspection';
             $availabilitiesTable->save($selectedAvailability);
@@ -124,10 +153,10 @@ class AutoScheduleBehavior extends Behavior
             ];
 
             Log::info("📝 Creating inspection with data: " . json_encode($inspectionData));
-            
+
             $inspection = $inspectionsTable->newEntity($inspectionData);
             $result = $inspectionsTable->save($inspection);
-            
+
             if ($result) {
                 Log::info("🎉 SUCCESS! Inspection #{$inspection->id} created for {$selectedAvailability->available_date}");
                 return true;
@@ -135,7 +164,6 @@ class AutoScheduleBehavior extends Behavior
                 Log::error("💥 FAILED! Could not save inspection");
                 return false;
             }
-            
         } catch (\Exception $e) {
             Log::error("💀 EXCEPTION: " . $e->getMessage());
             return false;
