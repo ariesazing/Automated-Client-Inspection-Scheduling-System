@@ -21,43 +21,54 @@ class InspectionsController extends AppController
         $inspectionsTable = $this->fetchTable('Inspections');
 
         $query = $inspectionsTable->find()
-            ->contain(['Inspectors'])
+            ->contain(['Inspectors', 'Clients'])
             ->select([
                 'Inspections.id',
+                'Clients.establishment_name',
+                'Clients.owner_name',
+                'Clients.type',
                 'Inspections.inspector_id',
                 'Inspections.scheduled_date',
+                'Inspections.actual_date',
                 'Inspections.status',
                 'Inspections.remarks',
                 'Inspectors.name'
 
             ])
-            ->order(['Availabilities.available_date' => 'ASC']);
+            ->order(['Inspections.scheduled_date' => 'ASC']);
 
         if ($inspection_id !== null) {
             $query->where(['Inspections.inspector_id' => $inspection_id]);
         }
-        $availabilities = $query->toList();
+        $inspections = $query->toList();
 
         $events = [];
-        foreach ($availabilities as $a) {
-            //\Cake\Log\Log::debug('Inspector ID: ' . $a->inspector_id);
-            //var_dump(pr($availabilities));die;
-            $events[] = [
-                'id' => $a->id,
-                'title' => $a->inspector->name .
-                    ($a->is_available ? ' (Available)' : ' (Unavailable)') .
-                    (!empty($a->reason) ? ' - ' . $a->reason : ''),
-                'start' => $a->available_date,
-                'color' => $a->is_available ? '#28a745' : '#dc3545',
-                'extendedProps' => [
-                    'inspector_id' => $a->inspector_id,
-                    'reason' => $a->reason,
-                    'is_available' => $a->is_available
-                ]
+        foreach ($inspections as $i) {
+            $statusLabels = [
+                'scheduled' => ' (Scheduled)',
+                'completed' => ' (Completed)',
+                'missed' => ' (Missed)',
+                'ongoing' => ' (Ongoing)'
+            ];
+            $statusColors = [
+                'scheduled' => '#007bff',   // blue
+                'completed' => '#28a745',   // green
+                'missed' => '#dc3545',      // red
+                'ongoing' => '#ffc107'      // yellow
+            ];
+            $color = $statusColors[$i->status] ?? '#6c757d'; // fallback gray
+            $label = $statusLabels[$i->status] ?? ' (Unknown)';
 
+            $events[] = [
+                'id' => $i->id,
+                'title' => $i->client->establishment_name . $label . $i->client->type,
+                'start' => $i->scheduled_date,
+                'color' => $color,
+                /*'extendedProps' => [
+                    'actual_date' => $i->actual_date,
+                ]*/
             ];
         }
-        $this->set('availability', $this->Availabilities->newEmptyEntity());
         return $this->response
             ->withType('application/json')
             ->withStringBody(json_encode(['data' => $events]));
@@ -91,10 +102,8 @@ class InspectionsController extends AppController
             $inspection = $this->Inspections->patchEntity($inspection, $this->request->getData());
             $userId = $this->Auth->user('id');
 
-            // Only auto-assign if inspector_id is empty/being cleared AND client exists
             $data = $this->request->getData();
             if (empty($data['inspector_id']) && !empty($inspection->client_id)) {
-                // Use the Behavior approach
                 $clientsTable = $this->getTableLocator()->get('Clients');
                 $success = $clientsTable->behaviors()->get('AutoSchedule')->autoCreateInspection($inspection->client_id);
 
@@ -103,7 +112,6 @@ class InspectionsController extends AppController
                 } else {
                     $result = ['status' => 'error', 'message' => 'The inspection could not be auto-assigned. Please try again.'];
                 }
-
                 return $this->response->withType('application/json')
                     ->withStringBody(json_encode($result));
             }

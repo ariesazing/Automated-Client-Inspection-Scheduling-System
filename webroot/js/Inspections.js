@@ -1,4 +1,5 @@
 $(function () {
+    initAvailabilityCalendar()
     getInspections();
     getSchedulingLogs();
 
@@ -13,19 +14,17 @@ $(function () {
             .done(function (data) {
                 if (data != '') {
                     const i = data.inspection;
-                    const ii = i.inspector;
-                    const ic = i.client;
-
 
                     loadInspectors(i.inspector_id, function () {
-                        $('#scheduled_date').val(i.scheduled_date);
+                        let scheduledDate = formatDateForInput(data.inspection.scheduled_date);
+                        $('#scheduled_date').val(scheduledDate);
                         $('#status').val(i.status);
                         $('#remarks').val(i.remarks);
                         $('#id').val(i.id);
                         $('#inspections-modal').modal('show');
                     });
                 }
-                $('#modal-title').html('Update Inspection');
+                $('#modal-title').html('Update Inspection: ' + data.inspection.client.establishment_name);
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
                 msgBox('error', errorThrown);
@@ -34,11 +33,11 @@ $(function () {
 
     $('#inspections-form').submit(function (e) {
         e.preventDefault();
+
         let fd = new FormData(this);
         let id = $('#id').val();
         let url = BASE_URL + '/api/Inspections/edit/' + id;
 
-            
         $.ajax({
             processData: false,
             contentType: false,
@@ -157,10 +156,6 @@ function getInspections() {
     });
 }
 
-// -------------------------------------------------------------------------------
-// The following is from Scheduling logs
-// ------------------------------------------------------------------------
-
 function getSchedulingLogs() {
     $.ajax({
         url: BASE_URL + '/api/SchedulingLogs/getSchedulingLogs',
@@ -187,4 +182,64 @@ function getSchedulingLogs() {
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.error('Error fetching users:', errorThrown);
     });
+}
+
+function initAvailabilityCalendar() {
+    const calendarEl = $('#calendar')[0];
+    if (!calendarEl) {
+        console.error('Calendar element not found.');
+        return;
+    }
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        businessHours: true,
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        },
+        businessHours: {
+            daysOfWeek: [1, 2, 3, 4, 5],
+            startTime: '08:00',
+            endTime: '18:00',
+        },
+        events: function (fetchInfo, successCallback, failureCallback) {
+            console.log('Fetching calendar events...');
+
+            $.ajax({
+                url: BASE_URL + '/api/Inspections',
+                method: 'GET',
+                dataType: 'json'
+            })
+                .done(function (data) {
+                    successCallback(data.data || data);
+                })
+                .fail(function (xhr, status, error) {
+                    console.error('Error loading events:', error);
+                    failureCallback(error);
+                });
+        }
+    });
+    calendar.render();
+}
+
+// Helper function to format date for HTML input
+function formatDateForInput(dateString) {
+    if (!dateString) return '';
+
+    // If it's already in YYYY-MM-DD format, return as is
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        return dateString;
+    }
+
+    // If it's a different format, parse and reformat
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return ''; // Invalid date
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }

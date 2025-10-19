@@ -8,7 +8,6 @@ use Cake\ORM\Behavior;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\FrozenDate;
 
-
 class AvailabilityBehavior extends Behavior
 {
     protected $_defaultConfig = [
@@ -21,7 +20,7 @@ class AvailabilityBehavior extends Behavior
     {
         $config = $this->getConfig();
         $availabilitiesTable = TableRegistry::getTableLocator()->get('Availabilities');
-        
+        $inspectionsTable = TableRegistry::getTableLocator()->get('Inspections');
         $inspectorsTable = TableRegistry::getTableLocator()->get($config['inspectorsTable']);
         $inspectors = $inspectorsTable->find('all')->toArray();
 
@@ -61,7 +60,7 @@ class AvailabilityBehavior extends Behavior
                         'inspector_id' => $inspector->id,
                         'available_date' => $date,
                         'is_available' => 1,
-                        'reason' => 'Auto-generateds'
+                        'reason' => 'Auto-generated'
                     ]));
                     $needed--;
                 }
@@ -81,6 +80,37 @@ class AvailabilityBehavior extends Behavior
                 : 'available';
 
             $inspectorsTable->save($inspector);
+
+            //Update is_available = true if no matching inspection exists for that date
+            $inspectionsGrouped = $inspectionsTable->find()
+                ->where([
+                    'inspector_id' => $inspector->id,
+                    'scheduled_date IS NOT' => null
+                ])
+                ->all()
+                ->groupBy(function ($i) {
+                    return $i->scheduled_date instanceof \DateTimeInterface
+                        ? $i->scheduled_date->format('Y-m-d')
+                        : 'unscheduled';
+                });
+
+            $inspectionsByDate = $inspectionsGrouped->toArray();
+
+            $availabilities = $availabilitiesTable->find()
+                ->where(['inspector_id' => $inspector->id])
+                ->all();
+
+            foreach ($availabilities as $availability) {
+                $scheduledDate = $availability->available_date->format('Y-m-d');
+
+                $hasMatchingInspection = isset($inspectionsByDate[$scheduledDate]);
+
+                if (!$hasMatchingInspection) {
+                    $availability->is_available = true;
+                    $availability->reason = 'Auto-generated to maintain 22-day window';
+                    $availabilitiesTable->save($availability);
+                }
+            }
         }
     }
 }
