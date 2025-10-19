@@ -57,6 +57,7 @@ return function (RouteBuilder $routes): void {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
+        $builder->connect('/dashboard', ['controller' => 'Dashboard', 'action' => 'index']);
         $builder->connect('/', ['controller' => 'Users', 'action' => 'index']);
 
         /*
