@@ -16,9 +16,9 @@ $(function () {
                     const ii = i.inspector;
                     const ic = i.client;
 
+
                     loadInspectors(i.inspector_id, function () {
                         $('#scheduled_date').val(i.scheduled_date);
-                        $('#reason').val(i.scheduling_logs?.[0]?.reason || '');
                         $('#status').val(i.status);
                         $('#remarks').val(i.remarks);
                         $('#id').val(i.id);
@@ -38,6 +38,7 @@ $(function () {
         let id = $('#id').val();
         let url = BASE_URL + '/api/Inspections/edit/' + id;
 
+            
         $.ajax({
             processData: false,
             contentType: false,
@@ -179,7 +180,6 @@ function getSchedulingLogs() {
                 { data: 'inspection_id' },
                 { data: 'old_date' },
                 { data: 'new_date' },
-                { data: 'reason' },
                 { data: 'user.username' },
                 { data: 'created_at' },
             ]

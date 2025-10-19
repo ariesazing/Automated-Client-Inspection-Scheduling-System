@@ -33,7 +33,7 @@
     </div>
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Logs</h3>
+            <h3 class="card-title">Rescheduling Logs</h3>
         </div>
         <div class="card-body">
             <table id="schedulingLogs-table" class="table table-bordered table-hover">
@@ -42,7 +42,6 @@
                         <th>Inspection ID</th>
                         <th>Old Date</th>
                         <th>New Date</th>
-                        <th>Reason</th>
                         <th>Updated By</th>
                         <th>Updated at</th>
                     </tr>
@@ -71,8 +70,6 @@
                     <?= $this->Form->control('inspector_id', ['id' => 'inspector-id', 'class' => 'form-control', 'label' => false]) ?>
                     <label for="scheduled_date">Reschedule</label>
                     <?= $this->Form->control('scheduled_date', ['class' => 'form-control', 'type' => 'date', 'label' => false]) ?>
-                    <label for="reason">Rescheduling Reason</label>
-                    <?= $this->Form->control('reason', ['class' => 'form-control', 'label' => false]) ?>
                     <label for="status">Status</label>
                     <?= $this->Form->control('status', [
                         'class' => 'form-control',

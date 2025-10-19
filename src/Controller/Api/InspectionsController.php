@@ -29,6 +29,7 @@ class InspectionsController extends AppController
                 'Inspections.status',
                 'Inspections.remarks',
                 'Inspectors.name'
+
             ])
             ->order(['Availabilities.available_date' => 'ASC']);
 

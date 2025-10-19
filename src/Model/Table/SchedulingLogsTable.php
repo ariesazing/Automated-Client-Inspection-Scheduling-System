@@ -76,10 +76,6 @@ class SchedulingLogsTable extends Table
             ->notEmptyDate('new_date');
 
         $validator
-            ->scalar('reason')
-            ->allowEmptyString('reason');
-
-        $validator
             ->integer('updated_by')
             ->requirePresence('updated_by', 'create')
             ->notEmptyString('updated_by');

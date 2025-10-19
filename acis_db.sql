@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2025 at 01:24 AM
+-- Generation Time: Oct 19, 2025 at 06:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -60,94 +60,116 @@ CREATE TABLE `availabilities` (
 --
 
 INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_available`, `reason`, `created`, `modified`) VALUES
-(2, 4, '2025-10-17', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(3, 4, '2025-10-20', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(4, 4, '2025-10-21', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(5, 4, '2025-10-22', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(6, 4, '2025-10-23', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(7, 4, '2025-10-24', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(8, 4, '2025-10-27', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(9, 4, '2025-10-28', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(10, 4, '2025-10-29', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(11, 4, '2025-10-30', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(12, 4, '2025-10-31', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(13, 4, '2025-11-03', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(14, 4, '2025-11-04', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(15, 4, '2025-11-05', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(16, 4, '2025-11-06', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(17, 4, '2025-11-07', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(18, 4, '2025-11-10', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(19, 4, '2025-11-11', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(20, 4, '2025-11-12', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(21, 4, '2025-11-13', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(22, 4, '2025-11-14', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(24, 7, '2025-10-17', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(25, 7, '2025-10-20', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(26, 7, '2025-10-21', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(27, 7, '2025-10-22', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(28, 7, '2025-10-23', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(29, 7, '2025-10-24', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(30, 7, '2025-10-27', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(31, 7, '2025-10-28', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(32, 7, '2025-10-29', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(33, 7, '2025-10-30', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(34, 7, '2025-10-31', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(35, 7, '2025-11-03', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(36, 7, '2025-11-04', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(37, 7, '2025-11-05', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(38, 7, '2025-11-06', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(39, 7, '2025-11-07', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(40, 7, '2025-11-10', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(41, 7, '2025-11-11', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(42, 7, '2025-11-12', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(43, 7, '2025-11-13', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(44, 7, '2025-11-14', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(46, 9, '2025-10-17', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(47, 9, '2025-10-20', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(48, 9, '2025-10-21', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(49, 9, '2025-10-22', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(50, 9, '2025-10-23', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(51, 9, '2025-10-24', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(52, 9, '2025-10-27', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(53, 9, '2025-10-28', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(54, 9, '2025-10-29', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(55, 9, '2025-10-30', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(56, 9, '2025-10-31', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(57, 9, '2025-11-03', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(58, 9, '2025-11-04', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(59, 9, '2025-11-05', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(60, 9, '2025-11-06', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(61, 9, '2025-11-07', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(62, 9, '2025-11-10', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(63, 9, '2025-11-11', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(64, 9, '2025-11-12', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(65, 9, '2025-11-13', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(66, 9, '2025-11-14', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(68, 11, '2025-10-17', 0, 'somehting happenedn', '2025-10-15 20:26:40', '2025-10-16 19:26:03'),
-(69, 11, '2025-10-20', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(70, 11, '2025-10-21', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(71, 11, '2025-10-22', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(72, 11, '2025-10-23', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(73, 11, '2025-10-24', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(74, 11, '2025-10-27', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(75, 11, '2025-10-28', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(76, 11, '2025-10-29', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(77, 11, '2025-10-30', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(78, 11, '2025-10-31', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(79, 11, '2025-11-03', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(80, 11, '2025-11-04', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(81, 11, '2025-11-05', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(82, 11, '2025-11-06', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(83, 11, '2025-11-07', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(84, 11, '2025-11-10', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(85, 11, '2025-11-11', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(86, 11, '2025-11-12', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(87, 11, '2025-11-13', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(88, 11, '2025-11-14', 1, 'Initial auto-generated availability', '2025-10-15 20:26:40', '2025-10-15 20:26:40'),
-(89, 4, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-16 19:25:40', '2025-10-16 19:25:40'),
-(90, 7, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-16 19:25:40', '2025-10-16 19:25:40'),
-(91, 9, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-16 19:25:40', '2025-10-16 19:25:40'),
-(92, 11, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-16 19:25:40', '2025-10-16 19:25:40');
+(1, 4, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:22:43'),
+(2, 4, '2025-10-21', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:50:59'),
+(3, 4, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(4, 4, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(5, 4, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(6, 4, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(7, 4, '2025-10-28', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(8, 4, '2025-10-29', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(9, 4, '2025-10-30', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(10, 4, '2025-10-31', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(11, 4, '2025-11-03', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(12, 4, '2025-11-04', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(13, 4, '2025-11-05', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(14, 4, '2025-11-06', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(15, 4, '2025-11-07', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(16, 4, '2025-11-10', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(17, 4, '2025-11-11', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(18, 4, '2025-11-12', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(19, 4, '2025-11-13', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(20, 4, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(21, 4, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(22, 4, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(23, 7, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 04:14:10'),
+(24, 7, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(25, 7, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(26, 7, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(27, 7, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(28, 7, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(29, 7, '2025-10-28', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(30, 7, '2025-10-29', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(31, 7, '2025-10-30', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(32, 7, '2025-10-31', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(33, 7, '2025-11-03', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(34, 7, '2025-11-04', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(35, 7, '2025-11-05', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(36, 7, '2025-11-06', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(37, 7, '2025-11-07', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(38, 7, '2025-11-10', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(39, 7, '2025-11-11', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(40, 7, '2025-11-12', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(41, 7, '2025-11-13', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(42, 7, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(43, 7, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(44, 7, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(45, 9, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(46, 9, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(47, 9, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(48, 9, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(49, 9, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(50, 9, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(51, 9, '2025-10-28', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(52, 9, '2025-10-29', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(53, 9, '2025-10-30', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(54, 9, '2025-10-31', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(55, 9, '2025-11-03', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(56, 9, '2025-11-04', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(57, 9, '2025-11-05', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(58, 9, '2025-11-06', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(59, 9, '2025-11-07', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(60, 9, '2025-11-10', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(61, 9, '2025-11-11', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(62, 9, '2025-11-12', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(63, 9, '2025-11-13', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(64, 9, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(65, 9, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(66, 9, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(67, 13, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:24:08'),
+(68, 13, '2025-10-21', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:53:40'),
+(69, 13, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(70, 13, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(71, 13, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(72, 13, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(73, 13, '2025-10-28', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(74, 13, '2025-10-29', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(75, 13, '2025-10-30', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(76, 13, '2025-10-31', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(77, 13, '2025-11-03', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(78, 13, '2025-11-04', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(79, 13, '2025-11-05', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(80, 13, '2025-11-06', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(81, 13, '2025-11-07', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(82, 13, '2025-11-10', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(83, 13, '2025-11-11', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(84, 13, '2025-11-12', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(85, 13, '2025-11-13', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(86, 13, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(87, 13, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(88, 13, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(89, 14, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:43:32'),
+(90, 14, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(91, 14, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(92, 14, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(93, 14, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(94, 14, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(95, 14, '2025-10-28', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(96, 14, '2025-10-29', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(97, 14, '2025-10-30', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(98, 14, '2025-10-31', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(99, 14, '2025-11-03', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(100, 14, '2025-11-04', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(101, 14, '2025-11-05', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(102, 14, '2025-11-06', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(103, 14, '2025-11-07', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(104, 14, '2025-11-10', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(105, 14, '2025-11-11', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(106, 14, '2025-11-12', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(107, 14, '2025-11-13', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(108, 14, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(109, 14, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(110, 14, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25');
 
 -- --------------------------------------------------------
 
@@ -172,10 +194,10 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `owner_name`, `establishment_name`, `address`, `type`, `risk_level`, `status`, `created_at`) VALUES
-(1, 'Nonie Pogi', 'Nonie Enterprise', 'Dubinan West, Santiago City', 'commercial', 'low', 'inactive', '2025-10-11 04:43:40'),
-(2, 'Kazuma Ichinose', 'Oolong Bar', 'Purok 9, Barangay Mizushi, Kyoto City', 'commercial', 'medium', 'active', '2025-10-13 01:36:42'),
-(3, 'Kaoruko Tsumugi', 'HoteCafe', 'Okoniyame, Daishi, Shinoya Prefecture', 'residential', 'low', 'active', '2025-10-14 01:05:15'),
-(7, 'Sebastian Biorni', 'Moricia Cafe', 'Escolletta Ave., Evergarden, Medetriona City', 'commercial', 'low', 'active', '2025-10-16 20:17:22');
+(6, 'Kaoruko Tsumugi', 'HoteCafe', 'asdasdad', 'commercial', 'low', 'active', '2025-10-19 02:24:08'),
+(8, 'c2', 'c2', 'c2', 'commercial', 'low', 'active', '2025-10-19 02:50:59'),
+(9, 'c4', 'c4', 'c4', 'commercial', 'low', 'active', '2025-10-19 02:53:40'),
+(10, 'dasd', 'asdasd', 'asdasdas', 'storage', 'low', 'active', '2025-10-19 04:14:10');
 
 -- --------------------------------------------------------
 
@@ -201,7 +223,10 @@ CREATE TABLE `inspections` (
 --
 
 INSERT INTO `inspections` (`id`, `client_id`, `inspector_id`, `scheduled_date`, `actual_date`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 3, 11, '2025-10-17', '2025-10-17', 'completed', 'heehee', '2025-10-17 07:12:01', '2025-10-16 23:13:50');
+(5, 6, 13, '0000-00-00', '2025-10-19', 'completed', 'done', '2025-10-19 02:24:08', '2025-10-19 02:33:00'),
+(7, 8, 4, '0000-00-00', '2025-10-19', 'completed', 'ddfvasf', '2025-10-19 02:50:59', '2025-10-19 02:51:14'),
+(8, 9, 13, '2025-10-24', NULL, 'scheduled', '', '2025-10-19 02:53:40', '2025-10-19 04:14:25'),
+(9, 10, 7, '2025-10-20', NULL, 'scheduled', NULL, '2025-10-19 04:14:10', '2025-10-19 04:14:10');
 
 -- --------------------------------------------------------
 
@@ -242,9 +267,10 @@ CREATE TABLE `inspectors` (
 
 INSERT INTO `inspectors` (`id`, `user_id`, `name`, `specialization`, `status`, `created_at`) VALUES
 (4, 4, 'FO2-Panganiban', 'general', 'available', '2025-10-10 09:46:15'),
-(7, 9, 'FO2-Mendoza', 'general', 'available', '2025-10-10 09:59:47'),
+(7, 9, 'FO2-Mendoza', 'mechanical', 'available', '2025-10-10 09:59:47'),
 (9, 8, 'FO2-Granada', 'hazardous', 'available', '2025-10-10 20:00:05'),
-(11, 2, 'FO1-Nishikita', 'structural', 'on_leave', '2025-10-15 07:54:48');
+(13, 2, 'FO1-Alaska', 'electrical', 'available', '2025-10-17 02:29:34'),
+(14, 1, 'FO1-Nonie', 'structural', 'available', '2025-10-17 02:30:08');
 
 -- --------------------------------------------------------
 
@@ -274,7 +300,6 @@ CREATE TABLE `scheduling_logs` (
   `inspection_id` int(11) NOT NULL,
   `old_date` date NOT NULL,
   `new_date` date NOT NULL,
-  `reason` text DEFAULT NULL,
   `updated_by` int(11) NOT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -283,9 +308,8 @@ CREATE TABLE `scheduling_logs` (
 -- Dumping data for table `scheduling_logs`
 --
 
-INSERT INTO `scheduling_logs` (`id`, `inspection_id`, `old_date`, `new_date`, `reason`, `updated_by`, `created_at`) VALUES
-(4, 1, '2025-10-20', '2025-10-21', 'Rescheduled by system or user', 1, '2025-10-16 23:12:34'),
-(5, 1, '2025-10-21', '2025-10-17', 'Rescheduled by system or user', 1, '2025-10-16 23:13:26');
+INSERT INTO `scheduling_logs` (`id`, `inspection_id`, `old_date`, `new_date`, `updated_by`, `created_at`) VALUES
+(26, 8, '2025-10-21', '2025-10-24', 1, '2025-10-19 04:14:25');
 
 -- --------------------------------------------------------
 
@@ -313,7 +337,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `status`, `created_at
 (2, 'admin2', '$2y$10$vv12TADU4YJ7PTUw5oqIKOLwfig85u7.f4gmg6J14y9gwr.Zh6F92', 'admin', 'inactive', '2025-10-09 07:52:57', '2025-10-09 07:52:57'),
 (4, 'inspector1', '$2y$10$Kp3LGOqLu5UUOdS5Ho30ROyWICamx8Z18.2G0aJgcfiNqa9MuDkVq', 'inspector', 'active', '2025-10-09 21:01:27', '2025-10-09 21:01:27'),
 (8, 'inspector2', '$2y$10$iMHUaN5E7l3ZSYLBEhTJne7j9GZh.G1OoIkdHkeIHoLv7a/PHjl1S', 'inspector', 'inactive', '2025-10-10 09:45:47', '2025-10-10 09:45:47'),
-(9, 'inspector3', '$2y$10$bzvrbS6oWwEen8MKZiydX.ou1OJeUxqRTbZSKJRFQKrFYM62fKali', 'inspector', 'active', '2025-10-10 09:56:34', '2025-10-10 09:56:34');
+(9, 'inspector3', '$2y$10$bzvrbS6oWwEen8MKZiydX.ou1OJeUxqRTbZSKJRFQKrFYM62fKali', 'inspector', 'active', '2025-10-10 09:56:34', '2025-10-10 09:56:34'),
+(10, 'userTest', '$2y$10$wILuNTsa69adscnfr4rEoeX8kBnMjIs95mxJgJ0O0bZX0pgnLxs3G', 'inspector', 'active', '2025-10-17 22:08:44', '2025-10-17 22:08:44');
 
 --
 -- Indexes for dumped tables
@@ -397,19 +422,19 @@ ALTER TABLE `audit_trail`
 -- AUTO_INCREMENT for table `availabilities`
 --
 ALTER TABLE `availabilities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `inspections`
 --
 ALTER TABLE `inspections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `inspection_results`
@@ -421,7 +446,7 @@ ALTER TABLE `inspection_results`
 -- AUTO_INCREMENT for table `inspectors`
 --
 ALTER TABLE `inspectors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -433,13 +458,13 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `scheduling_logs`
 --
 ALTER TABLE `scheduling_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
@@ -461,7 +486,7 @@ ALTER TABLE `availabilities`
 -- Constraints for table `inspections`
 --
 ALTER TABLE `inspections`
-  ADD CONSTRAINT `inspections_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`),
+  ADD CONSTRAINT `inspections_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `inspections_ibfk_2` FOREIGN KEY (`inspector_id`) REFERENCES `inspectors` (`id`);
 
 --

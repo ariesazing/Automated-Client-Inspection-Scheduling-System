@@ -105,7 +105,6 @@ class InspectionsTable extends Table
 
                 if ($currentLoad < 2) { // Max 2 inspections per day
                     $slot->is_available = false;
-                    $slot->reason = 'Auto-assigned for inspection';
                     $availabilities->save($slot);
 
                     \Cake\Log\Log::info("Assigned inspector #{$inspector->id} to client #{$clientId} on {$dateStr}");
@@ -234,7 +233,6 @@ class InspectionsTable extends Table
                     \Cake\Log\Log::info("Found available slot for inspector #{$inspector->id} on {$available->available_date}");
 
                     $available->is_available = false;
-                    $available->reason = 'Auto-assigned for inspection';
 
                     if ($availabilities->save($available)) {
                         \Cake\Log\Log::info("Saved availability update for inspector #{$inspector->id}");
@@ -281,29 +279,13 @@ class InspectionsTable extends Table
 
     public function beforeSave(EventInterface $event, EntityInterface $entity, \ArrayObject $options)
     {
-        /*
-        if (
-            $entity->isNew() &&
-            empty($entity->inspector_id) &&
-            !empty($entity->client_id)
-        ) {
-            // Use the ClientsTable method instead
-            $clientsTable = TableRegistry::getTableLocator()->get('Clients');
-            $inspectionsTable = TableRegistry::getTableLocator()->get('Inspections');
-            $clientsTable->fullAutoCreateForClient($inspectionsTable, $entity->client_id);
-
-            // Since fullAutoCreateForClient creates the inspection directly,
-            // we should probably return false to prevent duplicate saves
-            return false;
-        }
-        */
+        
         if (!$entity->isNew() && $entity->isDirty('scheduled_date')) {
             $logsTable = TableRegistry::getTableLocator()->get('SchedulingLogs');
             $logsTable->save($logsTable->newEntity([
                 'inspection_id' => $entity->id,
                 'old_date' => $entity->getOriginal('scheduled_date'),
                 'new_date' => $entity->scheduled_date,
-                'reason' => 'Rescheduled by system or user',
                 'updated_by' => $options['userId'] ?? null,
             ]));
         }
