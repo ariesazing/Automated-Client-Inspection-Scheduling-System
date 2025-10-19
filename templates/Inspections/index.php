@@ -53,6 +53,38 @@
 
 
 </div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="inspectionsCalendar-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h4 id="modal-title">Inspection Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Establishment</dt>
+                    <dd class="col-sm-8"></dd>
+
+                    <dt class="col-sm-4">Scheduled Date</dt>
+                    <dd class="col-sm-8"></dd>
+
+                    <dt class="col-sm-4">Inspector</dt>
+                    <dd class="col-sm-8"></dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8"></dd>
+                </dl>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="inspections-modal">
     <div class="modal-dialog">
         <div class="modal-content">

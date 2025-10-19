@@ -3,6 +3,25 @@ $(function () {
     getInspections();
     getSchedulingLogs();
 
+    calendar.on('eventClick', function (info) {
+        let id = info.event.id;
+
+        $.ajax({
+            url: BASE_URL + '/api/Inspections/getInspectorInspections/' + id,
+            type: "GET",
+            dataType: 'json'
+        }).done(function (data) {
+            if (data != '') {
+                $('#id').val(data.id);
+                $('#inspectionsCalendar-modal').modal('show');
+                $('#modal-title').html(data.inspector.name + ' at ' + data.scheduled_date);
+            }
+        })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                msgBox('error', errorThrown);
+            });
+    });
+
     $('#inspections-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
@@ -84,6 +103,14 @@ $(function () {
                     });
             }
         });
+    });
+
+    $('#inspectionsCalendar-modal').on('shown.bs.modal', function () {
+
+    });
+
+    $('#inspectionsCalendar-modal').on('hidden.bs.modal', function () {
+
     });
 
     $('#inspections-modal').on('shown.bs.modal', function () {

@@ -138,6 +138,7 @@ return function (RouteBuilder $routes): void {
         $builder->scope('/Inspections', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Inspections', 'action' => 'index']);
             $builder->connect('/getInspections', ['controller' => 'Inspections', 'action' => 'getInspections']);
+            $builder->connect('/getInspectorInspections', ['controller' => 'Inspections', 'action' => 'getInspectorInspections']);
             $builder->connect('/add', ['controller' => 'Inspections', 'action' => 'add']);
             $builder->connect('/edit/{id}', ['controller' => 'Inspections', 'action' => 'edit'], [
                 'pass' => ['id']

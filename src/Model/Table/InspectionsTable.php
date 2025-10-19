@@ -31,9 +31,6 @@ class InspectionsTable extends Table
             'foreignKey' => 'inspector_id',
             'joinType' => 'LEFT',
         ]);
-        $this->hasMany('InspectionResults', [
-            'foreignKey' => 'inspection_id',
-        ]);
         $this->hasMany('SchedulingLogs', [
             'foreignKey' => 'inspection_id',
         ]);

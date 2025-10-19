@@ -22,7 +22,6 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Client $client
  * @property \App\Model\Entity\Inspector $inspector
- * @property \App\Model\Entity\InspectionResult[] $inspection_results
  * @property \App\Model\Entity\SchedulingLog[] $scheduling_logs
  */
 class Inspection extends Entity
@@ -48,7 +47,6 @@ class Inspection extends Entity
         'updated_at' => true,
         'client' => true,
         'inspector' => true,
-        'inspection_results' => true,
         'scheduling_logs' => true,
     ];
 }

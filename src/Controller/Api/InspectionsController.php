@@ -33,7 +33,6 @@ class InspectionsController extends AppController
                 'Inspections.status',
                 'Inspections.remarks',
                 'Inspectors.name'
-
             ])
             ->order(['Inspections.scheduled_date' => 'ASC']);
 
@@ -61,7 +60,7 @@ class InspectionsController extends AppController
 
             $events[] = [
                 'id' => $i->id,
-                'title' => $i->client->establishment_name . $label . $i->client->type,
+                'title' => $i->client->establishment_name . $label . $i->inspector->name,
                 'start' => $i->scheduled_date,
                 'color' => $color,
                 /*'extendedProps' => [
@@ -77,16 +76,26 @@ class InspectionsController extends AppController
     public function view($id = null)
     {
         $inspection = $this->Inspections->get($id, [
-            'contain' => ['Clients', 'Inspectors', 'InspectionResults', 'SchedulingLogs'],
+            'contain' => ['Clients', 'Inspectors', 'SchedulingLogs'],
         ]);
 
         $this->set(compact('inspection'));
     }
 
+    public function getInspectorInspections($id = null)
+    {
+        $inspections = $this->Inspections->find()
+            ->contain(['Clients', 'Inspectors', 'SchedulingLogs'])
+            ->where(['id' => $id]);
+
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode(['data' => $inspections]));
+    }
+ 
     public function getInspections()
     {
         $inspections = $this->Inspections->find()
-            ->contain(['Clients', 'Inspectors', 'InspectionResults', 'SchedulingLogs']);
+            ->contain(['Clients', 'Inspectors', 'SchedulingLogs']);
 
         return $this->response->withType('application/json')
             ->withStringBody(json_encode(['data' => $inspections]));

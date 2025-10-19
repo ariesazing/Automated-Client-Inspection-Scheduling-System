@@ -80,7 +80,7 @@ class AvailabilityBehavior extends Behavior
                 : 'available';
 
             $inspectorsTable->save($inspector);
-
+            
             //Update is_available = true if no matching inspection exists for that date
             $inspectionsGrouped = $inspectionsTable->find()
                 ->where([
