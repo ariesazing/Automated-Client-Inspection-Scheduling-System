@@ -76,7 +76,7 @@ class AvailabilityBehavior extends Behavior
                 ->first();
 
             $inspector->status = ($todayAvailability && $todayAvailability->is_available === false)
-                ? 'on_leave'
+                ? 'unavailable'
                 : 'available';
 
             $inspectorsTable->save($inspector);

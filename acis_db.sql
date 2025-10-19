@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2025 at 06:14 AM
+-- Generation Time: Oct 19, 2025 at 07:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -22,21 +22,6 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `acis_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `acis_db`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `audit_trail`
---
-
-DROP TABLE IF EXISTS `audit_trail`;
-CREATE TABLE `audit_trail` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `action` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -60,8 +45,8 @@ CREATE TABLE `availabilities` (
 --
 
 INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_available`, `reason`, `created`, `modified`) VALUES
-(1, 4, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:22:43'),
-(2, 4, '2025-10-21', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:50:59'),
+(1, 4, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:34:22'),
+(2, 4, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 07:20:06'),
 (3, 4, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (4, 4, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (5, 4, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
@@ -82,9 +67,9 @@ INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_availa
 (20, 4, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (21, 4, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (22, 4, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(23, 7, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 04:14:10'),
+(23, 7, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:16:23'),
 (24, 7, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(25, 7, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(25, 7, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:21:35'),
 (26, 7, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (27, 7, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (28, 7, '2025-10-27', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
@@ -104,8 +89,8 @@ INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_availa
 (42, 7, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (43, 7, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (44, 7, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(45, 9, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(46, 9, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(45, 9, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:21:35'),
+(46, 9, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 12:21:44'),
 (47, 9, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (48, 9, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (49, 9, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
@@ -126,8 +111,8 @@ INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_availa
 (64, 9, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (65, 9, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (66, 9, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(67, 13, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:24:08'),
-(68, 13, '2025-10-21', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:53:40'),
+(67, 13, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:19:00'),
+(68, 13, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 12:15:32'),
 (69, 13, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (70, 13, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (71, 13, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
@@ -148,8 +133,8 @@ INSERT INTO `availabilities` (`id`, `inspector_id`, `available_date`, `is_availa
 (86, 13, '2025-11-14', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (87, 13, '2025-11-17', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (88, 13, '2025-11-18', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
-(89, 14, '2025-10-20', 0, 'Auto-assigned for inspection', '2025-10-18 21:46:25', '2025-10-19 02:43:32'),
-(90, 14, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
+(89, 14, '2025-10-20', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 16:21:35'),
+(90, 14, '2025-10-21', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-19 07:20:06'),
 (91, 14, '2025-10-22', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (92, 14, '2025-10-23', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
 (93, 14, '2025-10-24', 1, 'Auto-generated to maintain 22-day window', '2025-10-18 21:46:25', '2025-10-18 21:46:25'),
@@ -194,10 +179,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`id`, `owner_name`, `establishment_name`, `address`, `type`, `risk_level`, `status`, `created_at`) VALUES
-(6, 'Kaoruko Tsumugi', 'HoteCafe', 'asdasdad', 'commercial', 'low', 'active', '2025-10-19 02:24:08'),
-(8, 'c2', 'c2', 'c2', 'commercial', 'low', 'active', '2025-10-19 02:50:59'),
-(9, 'c4', 'c4', 'c4', 'commercial', 'low', 'active', '2025-10-19 02:53:40'),
-(10, 'dasd', 'asdasd', 'asdasdas', 'storage', 'low', 'active', '2025-10-19 04:14:10');
+(1, 'Kaoruko Tsumugi', 'HoteCafe', 'safasasfa', 'commercial', 'low', 'active', '2025-10-19 16:22:43');
 
 -- --------------------------------------------------------
 
@@ -223,27 +205,7 @@ CREATE TABLE `inspections` (
 --
 
 INSERT INTO `inspections` (`id`, `client_id`, `inspector_id`, `scheduled_date`, `actual_date`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
-(5, 6, 13, '0000-00-00', '2025-10-19', 'completed', 'done', '2025-10-19 02:24:08', '2025-10-19 02:33:00'),
-(7, 8, 4, '0000-00-00', '2025-10-19', 'completed', 'ddfvasf', '2025-10-19 02:50:59', '2025-10-19 02:51:14'),
-(8, 9, 13, '2025-10-24', NULL, 'scheduled', '', '2025-10-19 02:53:40', '2025-10-19 04:14:25'),
-(9, 10, 7, '2025-10-20', NULL, 'scheduled', NULL, '2025-10-19 04:14:10', '2025-10-19 04:14:10');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `inspection_results`
---
-
-DROP TABLE IF EXISTS `inspection_results`;
-CREATE TABLE `inspection_results` (
-  `id` int(11) NOT NULL,
-  `inspection_id` int(11) NOT NULL,
-  `result` enum('passed','failed','conditional') DEFAULT 'conditional',
-  `findings` text DEFAULT NULL,
-  `recommendations` text DEFAULT NULL,
-  `encoded_by` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(1, 1, 4, '2025-10-24', NULL, 'scheduled', '', '2025-10-19 16:22:43', '2025-10-19 16:34:22');
 
 -- --------------------------------------------------------
 
@@ -257,7 +219,7 @@ CREATE TABLE `inspectors` (
   `user_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `specialization` enum('general','electrical','mechanical','structural','hazardous') DEFAULT 'general',
-  `status` enum('available','on_inspection','on_leave') DEFAULT 'available',
+  `status` enum('available','unavailable') DEFAULT 'available',
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -271,22 +233,6 @@ INSERT INTO `inspectors` (`id`, `user_id`, `name`, `specialization`, `status`, `
 (9, 8, 'FO2-Granada', 'hazardous', 'available', '2025-10-10 20:00:05'),
 (13, 2, 'FO1-Alaska', 'electrical', 'available', '2025-10-17 02:29:34'),
 (14, 1, 'FO1-Nonie', 'structural', 'available', '2025-10-17 02:30:08');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `notifications`
---
-
-DROP TABLE IF EXISTS `notifications`;
-CREATE TABLE `notifications` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `type` enum('info','warning','alert') DEFAULT 'info',
-  `is_read` tinyint(1) DEFAULT 0,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -309,7 +255,7 @@ CREATE TABLE `scheduling_logs` (
 --
 
 INSERT INTO `scheduling_logs` (`id`, `inspection_id`, `old_date`, `new_date`, `updated_by`, `created_at`) VALUES
-(26, 8, '2025-10-21', '2025-10-24', 1, '2025-10-19 04:14:25');
+(1, 1, '2025-10-20', '2025-10-24', 1, '2025-10-19 16:34:22');
 
 -- --------------------------------------------------------
 
@@ -345,13 +291,6 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `status`, `created_at
 --
 
 --
--- Indexes for table `audit_trail`
---
-ALTER TABLE `audit_trail`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `availabilities`
 --
 ALTER TABLE `availabilities`
@@ -373,26 +312,11 @@ ALTER TABLE `inspections`
   ADD KEY `inspector_id` (`inspector_id`);
 
 --
--- Indexes for table `inspection_results`
---
-ALTER TABLE `inspection_results`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `inspection_id` (`inspection_id`),
-  ADD KEY `encoded_by` (`encoded_by`);
-
---
 -- Indexes for table `inspectors`
 --
 ALTER TABLE `inspectors`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_user_id` (`user_id`);
-
---
--- Indexes for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `scheduling_logs`
@@ -413,12 +337,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `audit_trail`
---
-ALTER TABLE `audit_trail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `availabilities`
 --
 ALTER TABLE `availabilities`
@@ -428,19 +346,13 @@ ALTER TABLE `availabilities`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `inspections`
 --
 ALTER TABLE `inspections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `inspection_results`
---
-ALTER TABLE `inspection_results`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `inspectors`
@@ -449,16 +361,10 @@ ALTER TABLE `inspectors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT for table `notifications`
---
-ALTER TABLE `notifications`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `scheduling_logs`
 --
 ALTER TABLE `scheduling_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -469,12 +375,6 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `audit_trail`
---
-ALTER TABLE `audit_trail`
-  ADD CONSTRAINT `audit_trail_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `availabilities`
@@ -490,23 +390,10 @@ ALTER TABLE `inspections`
   ADD CONSTRAINT `inspections_ibfk_2` FOREIGN KEY (`inspector_id`) REFERENCES `inspectors` (`id`);
 
 --
--- Constraints for table `inspection_results`
---
-ALTER TABLE `inspection_results`
-  ADD CONSTRAINT `inspection_results_ibfk_1` FOREIGN KEY (`inspection_id`) REFERENCES `inspections` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `inspection_results_ibfk_2` FOREIGN KEY (`encoded_by`) REFERENCES `users` (`id`);
-
---
 -- Constraints for table `inspectors`
 --
 ALTER TABLE `inspectors`
   ADD CONSTRAINT `inspectors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `scheduling_logs`

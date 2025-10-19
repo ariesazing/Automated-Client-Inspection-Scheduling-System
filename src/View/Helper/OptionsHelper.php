@@ -44,8 +44,7 @@ class OptionsHelper extends Helper
     {
         $array = [
             'available' => 'Available',
-            'on_inspection' => 'On Inspection',
-            'on_leave' => 'On Leave',
+            'unavailable' => 'Unavailable',
         ];
         return $array;
     }
