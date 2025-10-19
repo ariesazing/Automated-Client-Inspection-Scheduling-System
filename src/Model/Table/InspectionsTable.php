@@ -339,9 +339,6 @@ class InspectionsTable extends Table
             ->scalar('remarks')
             ->allowEmptyString('remarks');
 
-        $validator
-            ->boolean('manual_override')
-            ->allowEmptyString('manual_override');
 
         return $validator;
     }

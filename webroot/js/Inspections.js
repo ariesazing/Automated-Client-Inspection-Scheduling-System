@@ -1,5 +1,6 @@
 $(function () {
     getInspections();
+    getSchedulingLogs();
 
     $('#inspections-table').on('click', '.edit', function (e) {
         e.preventDefault();
@@ -148,6 +149,39 @@ function getInspections() {
                             </div>`;
                     }
                 }
+            ]
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching users:', errorThrown);
+    });
+}
+
+// -------------------------------------------------------------------------------
+// The following is from Scheduling logs
+// ------------------------------------------------------------------------
+
+function getSchedulingLogs() {
+    $.ajax({
+        url: BASE_URL + '/api/SchedulingLogs/getSchedulingLogs',
+        type: 'GET',
+        dataType: 'json'
+    }).done(function (res) {
+        //console.log('Fetched inspections:', res);
+
+        const scheduling_logs = res.data;
+
+        $('#schedulingLogs-table').DataTable({
+            responsive: true,
+            destroy: true,
+            order: [[0, 'asc']],
+            data: scheduling_logs,
+            columns: [
+                { data: 'inspection_id' },
+                { data: 'old_date' },
+                { data: 'new_date' },
+                { data: 'reason' },
+                { data: 'user.username' },
+                { data: 'created_at' },
             ]
         });
     }).fail(function (jqXHR, textStatus, errorThrown) {

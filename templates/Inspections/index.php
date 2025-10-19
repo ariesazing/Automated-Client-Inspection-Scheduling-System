@@ -31,6 +31,28 @@
             </table>
         </div>
     </div>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Logs</h3>
+        </div>
+        <div class="card-body">
+            <table id="schedulingLogs-table" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Inspection ID</th>
+                        <th>Old Date</th>
+                        <th>New Date</th>
+                        <th>Reason</th>
+                        <th>Updated By</th>
+                        <th>Updated at</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+
 </div>
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="inspections-modal">
     <div class="modal-dialog">

@@ -145,11 +145,11 @@ return function (RouteBuilder $routes): void {
             $builder->connect('/delete/{id}', ['controller' => 'Inspections', 'action' => 'delete'], [
                 'pass' => ['id']
             ]);
-            // ADD THIS LINE:
-            $builder->connect('/force-create/{clientId}', ['controller' => 'Inspections', 'action' => 'forceCreate'], [
-                'pass' => ['clientId']
-            ]);
         });
+        $builder->connect('/SchedulingLogs/getSchedulingLogs', [
+            'controller' => 'SchedulingLogs',
+            'action' => 'getSchedulingLogs'
+        ]);
 
         $builder->scope('/Clients', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Clients', 'action' => 'index']);

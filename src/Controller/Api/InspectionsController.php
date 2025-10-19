@@ -14,13 +14,52 @@ use App\Controller\AppController;
  */
 class InspectionsController extends AppController
 {
-    public function index()
+    public function index($inspection_id = null)
     {
-        $inspections = $this->Inspections->find()
-            ->contain(['Inspectors', 'Clients']);
+        $this->request->allowMethod(['get']);
 
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode($inspections));
+        $inspectionsTable = $this->fetchTable('Inspections');
+
+        $query = $inspectionsTable->find()
+            ->contain(['Inspectors'])
+            ->select([
+                'Inspections.id',
+                'Inspections.inspector_id',
+                'Inspections.scheduled_date',
+                'Inspections.status',
+                'Inspections.remarks',
+                'Inspectors.name'
+            ])
+            ->order(['Availabilities.available_date' => 'ASC']);
+
+        if ($inspection_id !== null) {
+            $query->where(['Inspections.inspector_id' => $inspection_id]);
+        }
+        $availabilities = $query->toList();
+
+        $events = [];
+        foreach ($availabilities as $a) {
+            //\Cake\Log\Log::debug('Inspector ID: ' . $a->inspector_id);
+            //var_dump(pr($availabilities));die;
+            $events[] = [
+                'id' => $a->id,
+                'title' => $a->inspector->name .
+                    ($a->is_available ? ' (Available)' : ' (Unavailable)') .
+                    (!empty($a->reason) ? ' - ' . $a->reason : ''),
+                'start' => $a->available_date,
+                'color' => $a->is_available ? '#28a745' : '#dc3545',
+                'extendedProps' => [
+                    'inspector_id' => $a->inspector_id,
+                    'reason' => $a->reason,
+                    'is_available' => $a->is_available
+                ]
+
+            ];
+        }
+        $this->set('availability', $this->Availabilities->newEmptyEntity());
+        return $this->response
+            ->withType('application/json')
+            ->withStringBody(json_encode(['data' => $events]));
     }
 
     public function view($id = null)

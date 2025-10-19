@@ -37,5 +37,7 @@ class SchedulingLog extends Entity
         'updated_by' => true,
         'created_at' => true,
         'inspection' => true,
+        'users' => true,
+        'clients' => true
     ];
 }

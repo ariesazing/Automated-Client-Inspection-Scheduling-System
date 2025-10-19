@@ -26,7 +26,7 @@ class AutoScheduleBehavior extends Behavior
         Log::info("🚨 STARTING AUTO-CREATION FOR CLIENT #{$clientId}");
 
         try {
-            // Check if inspection already exists (existing code)
+            // Check if inspection already exists 
             $existing = $inspectionsTable->find()
                 ->where(['client_id' => $clientId])
                 ->first();
@@ -36,12 +36,12 @@ class AutoScheduleBehavior extends Behavior
                 return true;
             }
 
-            // Get client data (existing code)
+            // Get client data
             $client = $this->table()->get($clientId);
             $type = strtolower($client->type);
             Log::info("✅ Client found: #{$client->id} - {$client->establishment_name}, Type: {$type}");
 
-            // Find eligible inspectors (existing code)
+            // Find eligible inspectors
             $coverage = [
                 'general' => ['residential', 'commercial'],
                 'mechanical' => ['industrial', 'storage'],
@@ -73,7 +73,6 @@ class AutoScheduleBehavior extends Behavior
                 return false;
             }
 
-            // 🎯 FIXED ALGORITHM: Date-by-date progression
             $selectedInspector = null;
             $selectedAvailability = null;
 
@@ -130,7 +129,7 @@ class AutoScheduleBehavior extends Behavior
                         $selectedInspector = $inspector;
                         $selectedAvailability = $slot;
                         Log::info("✅ Found available slot for inspector #{$inspector->id} on {$date} ({$inspectionsOnDate}/{$this->getConfig('maxInspectionsPerDay')} inspections)");
-                        break 2; // Break out of both loops
+                        break 2;
                     }
                 }
             }
@@ -140,7 +139,7 @@ class AutoScheduleBehavior extends Behavior
                 return false;
             }
 
-            // Reserve availability and create inspection (existing code)
+            // Reserve availability and create inspection 
             $selectedAvailability->is_available = false;
             $selectedAvailability->reason = 'Auto-assigned for inspection';
             $availabilitiesTable->save($selectedAvailability);

@@ -61,7 +61,7 @@ class AvailabilityBehavior extends Behavior
                         'inspector_id' => $inspector->id,
                         'available_date' => $date,
                         'is_available' => 1,
-                        'reason' => 'Auto-generated to maintain 22-day window'
+                        'reason' => 'Auto-generateds'
                     ]));
                     $needed--;
                 }

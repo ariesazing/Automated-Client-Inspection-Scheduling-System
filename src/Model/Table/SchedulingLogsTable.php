@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -42,7 +43,10 @@ class SchedulingLogsTable extends Table
         $this->setTable('scheduling_logs');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-
+        $this->belongsTo('Users', [
+            'foreignKey' => 'updated_by',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Inspections', [
             'foreignKey' => 'inspection_id',
             'joinType' => 'INNER',
