@@ -19,6 +19,17 @@ class UsersController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $auth = $this->Auth->user();
+
+        if ($auth['role'] !== 'admin') {
+            $this->Flash->error('Access denied.');
+            return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
+        }
+    }
     public function index()
     {
 
@@ -123,6 +134,4 @@ class UsersController extends AppController
         return $this->response->withType('application/json')
             ->withStringBody(json_encode($data['status'] = 'logout'));
     }
-
-  
 }

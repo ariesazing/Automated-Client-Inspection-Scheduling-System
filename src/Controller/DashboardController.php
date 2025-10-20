@@ -27,8 +27,13 @@ class DashboardController extends AppController
         // $this->fetchTable('Clients');
         // $this->fetchTable('Inspectors');
         // $this->fetchTable('Users');
-
         // Get counts for dashboard cards
+
+        $auth = $this->Auth->user();
+
+        // Proceed with admin dashboard logic
+        $totalInspections = $this->Inspections->find()->count();
+
         $totalInspections = $this->Inspections->find()->count();
         $completedInspections = $this->Inspections->find()
             ->where(['status' => 'completed'])

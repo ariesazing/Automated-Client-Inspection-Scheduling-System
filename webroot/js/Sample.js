@@ -1,5 +1,0 @@
-$(function () {
-    $('#sample-table').DataTable({
-
-    });
-});

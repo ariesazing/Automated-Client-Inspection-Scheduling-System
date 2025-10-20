@@ -208,10 +208,10 @@ window.dashboardData = {
             <div class="page-header-main">
                 <h1>
                     <i class="fas fa-fire-extinguisher mr-3"></i>
-                    BFP Inspection System
+                    BFP Inspection Scheduling System
                 </h1>
                 <p class="subtitle">
-                    Comprehensive Building and Fire Protection Inspection Management
+                    Comprehensive Building's Fire Safety Inspection Scheduling
                 </p>
             </div>
         </div>

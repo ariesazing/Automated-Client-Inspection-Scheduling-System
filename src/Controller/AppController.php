@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\ORM\TableRegistry;
 use Cake\Controller\Controller;
 
 
@@ -75,7 +76,7 @@ class AppController extends Controller
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
          */
-        //$this->loadComponent('FormProtection');
+        //$this->loadComponent('FormProtection');  
     }
 
     function beforeFilter(\Cake\Event\EventInterface $event)
@@ -90,6 +91,46 @@ class AppController extends Controller
 
         $this->Auth->allow(['login']);
         $auth = $this->Auth->user();
+
+        // Role-based redirect
+        if ($auth && isset($auth['role'])) {
+            switch ($auth['role']) {
+                case 'admin':
+                    $this->Auth->setConfig('loginRedirect', ['controller' => 'Dashboard', 'action' => 'index']);
+                    break;
+                case 'inspector':
+                    $this->Auth->setConfig('loginRedirect', ['controller' => 'Inspections', 'action' => 'index']);
+                    break;
+            }
+        }
+
+        // ✅ Fetch inspector name using user_id
+        if ($auth && $auth['role'] === 'inspector') {
+            $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
+            $inspector = $inspectorsTable->find()
+                ->select(['name'])
+                ->where(['user_id' => $auth['id']])
+                ->first();
+
+            if ($inspector) {
+                $auth['inspector_id'] = $inspector->id; 
+                $auth['inspector_name'] = $inspector->name;
+            }
+        }
+
+        // ✅ Fetch inspector name using user_id
+        if ($auth && $auth['role'] === 'admin') {
+            $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
+            $inspector = $inspectorsTable->find()
+                ->select(['name'])
+                ->where(['user_id' => $auth['id']])
+                ->first();
+
+            if ($inspector) {
+                $auth['inspector_name'] = $inspector->name;
+            }
+        }
+
         $this->set(compact('auth'));
     }
 }
