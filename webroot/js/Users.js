@@ -19,6 +19,7 @@ $(function () {
             .done(function (data) {
                 if (data != '') {
                     $('#username').val(data.username);
+                    $('#password').val('');
                     $('#role').val(data.role);
                     $('#status').val(data.status);
                     $('#id').val(data.id);

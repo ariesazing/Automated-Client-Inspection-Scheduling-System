@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -51,8 +52,9 @@ class User extends Entity
 
     protected function _setPassword(string $password)
     {
-        if (strlen($password) > 0) {
-            return (new DefaultPasswordHasher())->hash($password);
+        if (empty($password)) {
+            return null;
         }
+        return (new DefaultPasswordHasher())->hash($password);
     }
 }

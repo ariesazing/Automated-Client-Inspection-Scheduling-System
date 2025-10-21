@@ -3,6 +3,7 @@ $(function () {
     getInspections();
     getSchedulingLogs();
 
+    /*
     calendar.on('eventClick', function (info) {
         let id = info.event.id;
 
@@ -21,7 +22,7 @@ $(function () {
                 msgBox('error', errorThrown);
             });
     });
-
+*/
     $('#inspections-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');

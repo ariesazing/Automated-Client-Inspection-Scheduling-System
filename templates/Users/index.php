@@ -3,8 +3,11 @@
         <div class="card-header">
             <h3 class="card-title">Users</h3>
             <div class="card-tools">
-                <?= $this->Html->link('<i class="fas fa-plus"></i>','',
-                    ['id'=>'add','data-toggle'=>'tooltip','data-placement'=>'bottom','title'=>'Add User','escape'=>false]) ?>
+                <?= $this->Html->link(
+                    '<i class="fas fa-plus"></i>',
+                    '',
+                    ['id' => 'add', 'data-toggle' => 'tooltip', 'data-placement' => 'bottom', 'title' => 'Add User', 'escape' => false]
+                ) ?>
             </div>
         </div>
         <div class="card-body">
@@ -30,23 +33,29 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?= $this->Form->create($user,['id'=>'users-form']) ?>
+            <?= $this->Form->create($user, ['id' => 'users-form']) ?>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <?= $this->Form->control('username',['class'=>'form-control','label'=>false]) ?>
+                    <?= $this->Form->control('username', ['class' => 'form-control', 'label' => false]) ?>
                     <label for="password">Password</label>
-                    <?= $this->Form->control('password',['class'=>'form-control','label'=>false]) ?>
+                    <?= $this->Form->control('password', ['class' => 'form-control', 'label' => false,'placeholder' => 'leave blank to keep current password' , 'required' => false]) ?>
                     <label for="role">Role</label>
-                    <?= $this->Form->control('role',['class'=>'form-control',
-                    'options'=>$this->Options->roles(),'label'=>false]) ?>
+                    <?= $this->Form->control('role', [
+                        'class' => 'form-control',
+                        'options' => $this->Options->roles(),
+                        'label' => false
+                    ]) ?>
                     <label for="status">Status</label>
-                    <?= $this->Form->control('status',['class'=>'form-control',
-                    'options'=>$this->Options->user_status(),'label'=>false]) ?>
+                    <?= $this->Form->control('status', [
+                        'class' => 'form-control',
+                        'options' => $this->Options->user_status(),
+                        'label' => false
+                    ]) ?>
                 </div>
             </div>
             <div class="modal-footer">
-                <?= $this->Form->control('id',['type'=>'hidden','label'=>false]) ?>
+                <?= $this->Form->control('id', ['type' => 'hidden', 'label' => false]) ?>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>

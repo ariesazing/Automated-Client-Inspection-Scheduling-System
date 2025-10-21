@@ -63,19 +63,24 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => [],
-        ]);
+        $user = $this->Users->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+            $data = $this->request->getData();
+
+            if (empty($data['password'])) {
+                unset($data['password']);
+            }
+
+            $user = $this->Users->patchEntity($user, $data); // Remove validation context
             if ($this->Users->save($user)) {
                 $result = ['status' => 'success', 'message' => 'The User has been saved.'];
             } else {
-                $result = ['status' => 'error', 'message' => 'The User could not be saved. Please, try again.'];
+                $result = ['status' => 'error', 'message' => 'The User could not be saved.'];
             }
             return $this->response->withType('application/json')
                 ->withStringBody(json_encode($result));
         }
+
         return $this->response->withType('application/json')
             ->withStringBody(json_encode($user));
     }

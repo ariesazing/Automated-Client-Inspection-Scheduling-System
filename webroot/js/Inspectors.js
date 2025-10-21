@@ -20,7 +20,7 @@ $(function () {
             .done(function (data) {
                 if (data != '') {
                     loadUsers(data.user_id, function () {
-                        // populate other inputs after users are loaded
+                        
                         $('#name').val(data.name);
                         $('#specialization').val(data.specialization);
                         $('#status').val(data.status);
@@ -113,9 +113,13 @@ function loadUsers(selectedUserId = null, callback = null) {
         dataType: 'json'
     }).done(function (res) {
         let options = '<option value="">-- Select User --</option>';
+
         res.forEach(function (user) {
-            options += `<option value="${user.id}" ${user.id == selectedUserId ? 'selected' : ''}>${user.username}</option>`;
+            if (user.role === 'inspector' && user.status === 'active') {
+                options += `<option value="${user.id}" ${user.id == selectedUserId ? 'selected' : ''}>${user.username}</option>`;
+            }
         });
+
         $('#user-id').html(options);
         if (callback) callback();
     }).fail(function (jqXHR, textStatus, errorThrown) {
