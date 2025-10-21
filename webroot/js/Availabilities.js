@@ -140,6 +140,7 @@ function initAvailabilityCalendar() {
 
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        contentHeight: 600,
         businessHours: true,
         editable: true,
         headerToolbar: {

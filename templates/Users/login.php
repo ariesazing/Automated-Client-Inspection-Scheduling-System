@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-8"></div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" class="btn btn-danger btn-block">Sign In</button>
                 </div>
             </div>
             <?= $this->Form->end() ?>

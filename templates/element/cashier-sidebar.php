@@ -1,6 +1,6 @@
 <?php $title = $this->fetch('title'); ?>
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar elevation-4 sidebar-light-primary">
+<aside class="main-sidebar elevation-4 sidebar-light-danger">
     <?php
     $image = $this->Html->image('deped_logo.png',['class'=>'brand-image img-circle elevation-3','style'=>'opacity:0.8;']);
     echo $this->Html->link($image.'<span class="brand-text font-weight-light text-dark">ECounselor</span>','/Dashboard',['class'=>'brand-link',

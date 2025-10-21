@@ -1,5 +1,5 @@
 <div class="col-12">
-    <div class="card card-primary">
+    <div class="card card-danger">
         <div class="card-header">
             <h3 class="card-title">Inspector Availability Calendar</h3>
         </div>
@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="col-12">
-    <div class="card card-primary">
+    <div class="card card-danger">
         <div class="card-header">
             <h3 class="card-title">Availabilities</h3>
         </div>
@@ -30,7 +30,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="availabilities-modal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
+            <div class="modal-header bg-danger">
                 <h4 id="modal-title"></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -54,7 +54,7 @@
             <div class="modal-footer">
                 <?= $this->Form->control('id', ['type' => 'hidden', 'label' => false]) ?>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-danger">Save</button>
             </div>
             <?= $this->Form->end() ?>
         </div>

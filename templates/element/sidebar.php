@@ -1,11 +1,11 @@
 <?php $title = $this->fetch('title'); ?>
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar elevation-4 sidebar-light-primary">
+<aside class="main-sidebar elevation-4 sidebar-light-danger">
     <?php
-    echo $this->Html->link('<span class="brand-text font-weight-light text-dark">ACISS</span>', '/Dashboard', [
+    echo $this->Html->link('<span class="brand-text font-weight-bold text-light">ACISS</span>', '/Dashboard', [
         'class' => 'brand-link',
         'escape' => false,
-        'style' => 'background-color:#007BFF;'
+        'style' => 'background-color:#DC3545;'
     ]);
     ?>
     <div class="sidebar">

@@ -221,6 +221,7 @@ function initAvailabilityCalendar() {
 
     calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        contentHeight: 600,
         businessHours: true,
         headerToolbar: {
             left: 'prev,next today',
