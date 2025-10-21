@@ -11,11 +11,24 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="#" class="d-block">Welcome <b><?= $auth['inspector_name'] ?></b></a>
+                <a href="#" class="d-block">Welcome <b>
+                        <?php if ($auth['role'] == 'inspector'): ?><?= $auth['inspector_name'] ?><?php endif; ?>
+                        <?php if ($auth['role'] == 'admin'): ?><?= $auth['username'] ?><?php endif; ?>
+                    </b></a>
             </div>
         </div>
         <nav class="mt-2 mb-0">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <?php if ($auth['role'] !== 'admin'): ?>
+                    <li class="nav-item">
+                        <?php $active = $title == 'DashboardInspector' ? 'active' : '' ?>
+                        <?= $this->Html->link('<i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>', '/DashboardInspector', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
+                    </li>
+                <?php endif; ?>
                 <?php if ($auth['role'] !== 'inspector'): ?>
                     <li class="nav-item">
                         <?php $active = $title == 'Dashboard' ? 'active' : '' ?>

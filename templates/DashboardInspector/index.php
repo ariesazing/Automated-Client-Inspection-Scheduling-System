@@ -20,7 +20,9 @@ foreach ($riskLevels as $risk) {
     $riskLevelData[] = $risk->count;
 }
 ?>
-
+<script>
+    window.currentInspectorId = <?= $inspectorId ?? 'null' ?>;
+</script>
 <!-- Add data for JavaScript -->
 <script>
     window.dashboardData = {
@@ -220,7 +222,7 @@ foreach ($riskLevels as $risk) {
             <div class="page-header-main">
                 <h1>
                     <i class="fas fa-fire-extinguisher mr-3"></i>
-                    BFP Inspection Scheduling System
+                    BFP Inspection Scheduling System Inspector Dashboard
                 </h1>
                 <p class="subtitle">
                     Comprehensive Building's Fire Safety Inspection Scheduling
@@ -345,21 +347,26 @@ foreach ($riskLevels as $risk) {
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <!-- In the System Metrics section, replace the Active Inspectors card: -->
                         <div class="col-md-6">
                             <div class="d-flex align-items-center justify-content-between mb-4 p-3 bg-light rounded">
                                 <div>
-                                    <h6 class="mb-0 text-dark font-weight-bold">Active Inspectors</h6>
-                                    <small class="text-muted">Currently available</small>
+                                    <h6 class="mb-0 text-dark font-weight-bold">My Assignment Rate</h6>
+                                    <small class="text-muted">Your workload efficiency</small>
                                 </div>
-                                <span class="badge badge-primary badge-pill" style="font-size: 1.1rem; min-width: 50px; text-align: center;"><?= $activeInspectors ?></span>
+                                <span class="badge badge-primary badge-pill" style="font-size: 1.1rem; min-width: 50px; text-align: center;">
+                                    <?= $totalInspections > 0 ? round(($totalInspections / ($totalInspections + 10)) * 100, 0) : 0 ?>%
+                                </span>
                             </div>
 
                             <div class="d-flex align-items-center justify-content-between mb-4 p-3 bg-light rounded">
                                 <div>
                                     <h6 class="mb-0 text-dark font-weight-bold">Completion Rate</h6>
-                                    <small class="text-muted">Overall efficiency</small>
+                                    <small class="text-muted">Your inspection efficiency</small>
                                 </div>
-                                <span class="badge badge-success badge-pill" style="font-size: 1.1rem; min-width: 50px; text-align: center;"><?= $completionRate ?>%</span>
+                                <span class="badge badge-success badge-pill" style="font-size: 1.1rem; min-width: 50px; text-align: center;">
+                                    <?= $completionRate ?>%
+                                </span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -464,4 +471,4 @@ foreach ($riskLevels as $risk) {
 
 <!-- Include external JavaScript files -->
 <?= $this->Html->script('https://cdn.jsdelivr.net/npm/chart.js') ?>
-<?= $this->Html->script('dashboard') ?>
+<?= $this->Html->script('dashboardInspector') ?>

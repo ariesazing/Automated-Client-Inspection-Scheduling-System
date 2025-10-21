@@ -66,8 +66,9 @@ class AppController extends Controller
             "logoutRedirect" => [
                 "controller" => "Users",
                 "action" => "login"
-            ]
+            ],
         ]);
+        $this->loadComponent('InspectorSessionData');
         $availabilitiesTable = $this->getTableLocator()->get('Availabilities');
         $availabilitiesTable->maintainAvailabilityWindow();
         $this->loadComponent('RequestHandler');
@@ -85,49 +86,23 @@ class AppController extends Controller
 
         $prefix = $this->request->getParam('prefix');
 
+        //remove when authorization in flutter is implemented
         if ($prefix === 'Api') {
             $this->Auth->allow();
+        } else {
+            $this->Auth->allow(['login']);
         }
+
+
 
         $this->Auth->allow(['login']);
         $auth = $this->Auth->user();
 
-        // Role-based redirect
-        if ($auth && isset($auth['role'])) {
-            switch ($auth['role']) {
-                case 'admin':
-                    $this->Auth->setConfig('loginRedirect', ['controller' => 'Dashboard', 'action' => 'index']);
-                    break;
-                case 'inspector':
-                    $this->Auth->setConfig('loginRedirect', ['controller' => 'Inspections', 'action' => 'index']);
-                    break;
-            }
-        }
-
-        // ✅ Fetch inspector name using user_id
         if ($auth && $auth['role'] === 'inspector') {
-            $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
-            $inspector = $inspectorsTable->find()
-                ->select(['name'])
-                ->where(['user_id' => $auth['id']])
-                ->first();
-
-            if ($inspector) {
-                $auth['inspector_id'] = $inspector->id; 
-                $auth['inspector_name'] = $inspector->name;
-            }
-        }
-
-        // ✅ Fetch inspector name using user_id
-        if ($auth && $auth['role'] === 'admin') {
-            $inspectorsTable = TableRegistry::getTableLocator()->get('Inspectors');
-            $inspector = $inspectorsTable->find()
-                ->select(['name'])
-                ->where(['user_id' => $auth['id']])
-                ->first();
-
-            if ($inspector) {
-                $auth['inspector_name'] = $inspector->name;
+            $inspectorData = $this->InspectorSessionData->getData();
+            if (!empty($inspectorData->id) && !empty($inspectorData->name)) {
+                $auth['inspector_id'] = $inspectorData->id;
+                $auth['inspector_name'] = $inspectorData->name;
             }
         }
 

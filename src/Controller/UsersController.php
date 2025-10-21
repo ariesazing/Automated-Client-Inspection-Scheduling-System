@@ -31,10 +31,6 @@ class UsersController extends AppController
     {
         $auth = $this->Auth->user();
         $user = $this->Users->newEmptyEntity();
-
-        if ($auth['role'] === 'inspector') {
-            return $this->redirect(['controller' => 'Inspections', 'action' => 'index']);
-        }
         $this->set(compact('user'));
     }
 
@@ -46,9 +42,30 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
             if ($user) {
+                // Enrich inspector session data before storing
+                if ($user['role'] === 'inspector') {
+                    $inspectorData = $this->InspectorSessionData->getData($user);
+                    if ($inspectorData) {
+                        $user['inspector_id'] = $inspectorData->id;
+                        $user['inspector_name'] = $inspectorData->name;
+                    }
+                }
+
+                // Store enriched user in session
                 $this->Auth->setUser($user);
+
+                // 🚦 Role-based redirect
+                switch ($user['role']) {
+                    case 'admin':
+                        return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
+                    case 'inspector':
+                        return $this->redirect(['controller' => 'DashboardInspector', 'action' => 'index']);
+                }
+
+                // Fallback redirect
                 return $this->redirect($this->Auth->redirectUrl());
             }
+
             $this->Flash->error(__('Invalid username or password, try again'));
         }
 

@@ -57,8 +57,7 @@ return function (RouteBuilder $routes): void {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/dashboard', ['controller' => 'Dashboard', 'action' => 'index']);
-        $builder->connect('/', ['controller' => 'Users', 'action' => 'index']);
+        $builder->connect('/', ['controller' => 'Users', 'action' => 'login']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
@@ -82,6 +81,18 @@ return function (RouteBuilder $routes): void {
     });
     $routes->prefix('Api', function (RouteBuilder $builder) {
         $builder->scope('/Users', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Users', 'action' => 'index']);
+            $builder->connect('/getUsers', ['controller' => 'Users', 'action' => 'getUsers']);
+            $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
+            $builder->connect('/add', ['controller' => 'Users', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Users', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Users', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
+        $builder->scope('/users', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Users', 'action' => 'index']);
             $builder->connect('/getUsers', ['controller' => 'Users', 'action' => 'getUsers']);
             $builder->connect('/login', ['controller' => 'Users', 'action' => 'login']);
@@ -136,6 +147,7 @@ return function (RouteBuilder $routes): void {
                 'pass' => ['id']
             ]);
         });
+
         $builder->scope('/Inspections', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Inspections', 'action' => 'index']);
             $builder->connect('/getInspections', ['controller' => 'Inspections', 'action' => 'getInspections']);
@@ -154,6 +166,17 @@ return function (RouteBuilder $routes): void {
         ]);
 
         $builder->scope('/Clients', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Clients', 'action' => 'index']);
+            $builder->connect('/getClients', ['controller' => 'Clients', 'action' => 'getClients']);
+            $builder->connect('/add', ['controller' => 'Clients', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Clients', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Clients', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
+        $builder->scope('/clients', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Clients', 'action' => 'index']);
             $builder->connect('/getClients', ['controller' => 'Clients', 'action' => 'getClients']);
             $builder->connect('/add', ['controller' => 'Clients', 'action' => 'add']);
