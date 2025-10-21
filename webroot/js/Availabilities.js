@@ -1,6 +1,7 @@
 let calendar;
 $(function () {
     initAvailabilityCalendar();
+    getAvailabilitiesForTable();
 
     calendar.on('eventClick', function (info) {
         let id = info.event.id;
@@ -22,7 +23,27 @@ $(function () {
                 msgBox('error', errorThrown);
             });
     });
-
+    $('#availabilities-table').on('click', '.edit', function (e) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            url: BASE_URL + '/api/Availabilities/edit/' + id,
+            type: "GET",
+            dataType: 'json'
+        })
+            .done(function (data) {
+                if (data != '') {
+                    $('#is_available').val(String(data.is_available));
+                    $('#reason').val(data.reason);
+                    $('#id').val(data.id);
+                    $('#availabilities-modal').modal('show');
+                    $('#modal-title').html('Update ' + data.inspector.name);
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                msgBox('error', errorThrown);
+            });
+    });
     $('#availabilities-form').on('submit', function (e) {
         e.preventDefault();
 
@@ -80,7 +101,40 @@ function getAvailabilities() {
         console.error('Error fetching availabilities:', errorThrown);
     });
 }
+function getAvailabilitiesForTable() {
+    $.ajax({
+        url: BASE_URL + '/api/Availabilities/getAvailabilitiesForTable',
+        type: 'GET',
+        dataType: 'json'
+    }).done(function (res) {
 
+        const availabilities = res.data;
+
+        $('#availabilities-table').DataTable({
+            responsive: true,
+            destroy: true,
+            order: [[0, 'asc']],
+            data: availabilities,
+            columns: [
+                { data: 'inspector.name' },
+                { data: 'available_date' },
+                { data: 'is_available' },
+                { data: 'reason' },
+                {
+                    data: null,
+                    render: function (data) {
+                        return `
+                            <div style="text-align:center;">
+                                <a href="#" class="edit" data-id="${data.id}"><i class="fas fa-pen"></i></a> |
+                            </div>`;
+                    }
+                }
+            ]
+        });
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error('Error fetching users:', errorThrown);
+    });
+}
 /*
 function getInspectorAvailabilities(inspector_id) {
     $.ajax({

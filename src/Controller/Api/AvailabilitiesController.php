@@ -91,6 +91,16 @@ class AvailabilitiesController extends AppController
             ->withStringBody(json_encode(['data' => $availabilities]));
     }
 
+     public function getAvailabilitiesForTable()
+    {
+        $availabilities = $this->Availabilities->find()
+            ->contain(['Inspectors'])
+            ->order(['Availabilities.available_date' => 'ASC']);
+
+        return $this->response->withType('application/json')
+            ->withStringBody(json_encode(['data' => $availabilities]));
+    }
+
 
 
     public function editAvailabilities($id = null)

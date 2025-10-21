@@ -114,6 +114,7 @@ return function (RouteBuilder $routes): void {
                 'pass' => ['inspector_id']
             ]);
             $builder->connect('/getAvailabilities', ['controller' => 'Availabilities', 'action' => 'getAvailabilities']);
+            $builder->connect('/getAvailabilitiesForTable', ['controller' => 'Availabilities', 'action' => 'getAvailabilitiesForTable']);
             $builder->connect('/getInspectorAvailabilities/{inspector_id}', [
                 'controller' => 'Availabilities',
                 'action' => 'getInspectorAvailabilities'

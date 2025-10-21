@@ -8,7 +8,25 @@
         </div>
     </div>
 </div>
-
+<div class="col-12">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Availabilities</h3>
+        </div>
+        <div class="card-body">
+            <table id="availabilities-table" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Inspector Name</th>
+                        <th>Availabilities Date</th>
+                        <th>Is Available</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="availabilities-modal">
     <div class="modal-dialog">
         <div class="modal-content">
