@@ -80,7 +80,7 @@ class AvailabilityBehavior extends Behavior
                 : 'available';
 
             $inspectorsTable->save($inspector);
-            
+
             //Update is_available = true if no matching inspection exists for that date
             $inspectionsGrouped = $inspectionsTable->find()
                 ->where([
@@ -106,9 +106,13 @@ class AvailabilityBehavior extends Behavior
                 $hasMatchingInspection = isset($inspectionsByDate[$scheduledDate]);
 
                 if (!$hasMatchingInspection) {
-                    $availability->is_available = true;
-                    $availability->reason = 'Auto-generated to maintain 22-day window';
-                    $availabilitiesTable->save($availability);
+                    // Only overwrite if this record appears to be auto-generated
+                    $reason = $availability->reason ?? '';
+                    if ($reason === '' || strpos($reason, 'Auto-generated') !== false) {
+                        $availability->is_available = true;
+                        $availability->reason = 'Auto-generated to maintain 22-day window';
+                        $availabilitiesTable->save($availability);
+                    }
                 }
             }
         }

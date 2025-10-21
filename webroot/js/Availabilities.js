@@ -3,6 +3,7 @@ $(function () {
     initAvailabilityCalendar();
     getAvailabilitiesForTable();
 
+
     calendar.on('eventClick', function (info) {
         let id = info.event.id;
 
@@ -23,27 +24,7 @@ $(function () {
                 msgBox('error', errorThrown);
             });
     });
-    $('#availabilities-table').on('click', '.edit', function (e) {
-        e.preventDefault();
-        let id = $(this).data('id');
-        $.ajax({
-            url: BASE_URL + '/api/Availabilities/edit/' + id,
-            type: "GET",
-            dataType: 'json'
-        })
-            .done(function (data) {
-                if (data != '') {
-                    $('#is_available').val(String(data.is_available));
-                    $('#reason').val(data.reason);
-                    $('#id').val(data.id);
-                    $('#availabilities-modal').modal('show');
-                    $('#modal-title').html('Update ' + data.inspector.name);
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-                msgBox('error', errorThrown);
-            });
-    });
+  
     $('#availabilities-form').on('submit', function (e) {
         e.preventDefault();
 

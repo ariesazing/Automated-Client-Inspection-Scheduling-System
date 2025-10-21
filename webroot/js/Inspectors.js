@@ -20,10 +20,9 @@ $(function () {
             .done(function (data) {
                 if (data != '') {
                     loadUsers(data.user_id, function () {
-                        
+                        // populate other inputs after users are loaded
                         $('#name').val(data.name);
                         $('#specialization').val(data.specialization);
-                        $('#status').val(data.status);
                         $('#id').val(data.id);
                         $('#inspectors-modal').modal('show');
                     });

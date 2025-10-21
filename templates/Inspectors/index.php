@@ -14,7 +14,7 @@
                         <th>User</th>
                         <th>Name</th>
                         <th>Specialization</th>
-                        <th>Status</th>
+                        <th>Today's Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -41,9 +41,6 @@
                    <label for="specialization">Specialization</label>
                     <?= $this->Form->control('specialization',['class'=>'form-control',
                     'options'=>$this->Options->specialization(),'label'=>false,'empty' => false]) ?>
-                    <label for="status">Status</label>
-                    <?= $this->Form->control('status',['class'=>'form-control',
-                    'options'=>$this->Options->inspector_status(),'label'=>false,'empty' => false]) ?>
                 </div>
             </div>
             <div class="modal-footer">
