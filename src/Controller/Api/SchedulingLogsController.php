@@ -52,11 +52,52 @@ class SchedulingLogsController extends AppController
      */
     public function getSchedulingLogs()
     {
-        $schedulingLogs = $this->SchedulingLogs->find()
-            ->contain(['Users']);
+        $this->autoRender = false;
+        $this->response = $this->response->withType('application/json');
 
-        return $this->response->withType('application/json')
-            ->withStringBody(json_encode(['data' => $schedulingLogs]));
+        try {
+            $schedulingLogs = $this->SchedulingLogs->find()
+                ->contain([
+                    'Users',
+                    'Inspections' => [
+                        'Clients' // Include Clients to get establishment_name
+                    ]
+                ])
+                ->order(['SchedulingLogs.created_at' => 'DESC'])
+                ->all();
+
+            $formattedLogs = [];
+            foreach ($schedulingLogs as $log) {
+                $formattedLogs[] = [
+                    'id' => $log->id,
+                    'inspection_id' => $log->inspection_id,
+                    'old_date' => $log->old_date ? $log->old_date->format('Y-m-d') : null,
+                    'new_date' => $log->new_date ? $log->new_date->format('Y-m-d') : null,
+                    'reason' => $log->reason,
+                    'updated_by' => $log->updated_by,
+                    'created_at' => $log->created_at ? $log->created_at->format('Y-m-d H:i:s') : null,
+                    'user' => $log->user ? [
+                        'username' => $log->user->username,
+                        'name' => $log->user->username
+                    ] : null,
+                    'inspection' => $log->inspection ? [
+                        'client' => $log->inspection->client ? [
+                            'establishment_name' => $log->inspection->client->establishment_name
+                        ] : null,
+                        'client_name' => $log->inspection->client->establishment_name ?? null
+                    ] : null,
+                    'establishment_name' => $log->inspection->client->establishment_name ?? 'Unknown Establishment'
+                ];
+            }
+
+            $this->response = $this->response->withStringBody(json_encode($formattedLogs));
+            return $this->response;
+        } catch (\Exception $e) {
+            $this->response = $this->response->withStringBody(json_encode([
+                'error' => 'Failed to fetch scheduling logs: ' . $e->getMessage()
+            ]));
+            return $this->response->withStatus(500);
+        }
     }
     
     public function delete($id = null)

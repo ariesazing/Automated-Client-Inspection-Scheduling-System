@@ -100,16 +100,7 @@ function getAvailabilitiesForTable() {
                 { data: 'inspector.name' },
                 { data: 'available_date' },
                 { data: 'is_available' },
-                { data: 'reason' },
-                {
-                    data: null,
-                    render: function (data) {
-                        return `
-                            <div style="text-align:center;">
-                                <a href="#" class="edit" data-id="${data.id}"><i class="fas fa-pen"></i></a> |
-                            </div>`;
-                    }
-                }
+                { data: 'reason' }
             ]
         });
     }).fail(function (jqXHR, textStatus, errorThrown) {

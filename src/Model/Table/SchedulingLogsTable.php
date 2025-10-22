@@ -37,22 +37,29 @@ class SchedulingLogsTable extends Table
      * @return void
      */
     public function initialize(array $config): void
-    {
-        parent::initialize($config);
+{
+    parent::initialize($config);
 
-        $this->setTable('scheduling_logs');
-        $this->setDisplayField('id');
-        $this->setPrimaryKey('id');
-        $this->belongsTo('Users', [
-            'foreignKey' => 'updated_by',
-            'joinType' => 'INNER',
-        ]);
-        $this->belongsTo('Inspections', [
-            'foreignKey' => 'inspection_id',
-            'joinType' => 'INNER',
-        ]);
-    }
-
+    $this->setTable('scheduling_logs');
+    $this->setDisplayField('id');
+    $this->setPrimaryKey('id');
+    
+    $this->belongsTo('Users', [
+        'foreignKey' => 'updated_by',
+        'joinType' => 'INNER',
+    ]);
+    
+    $this->belongsTo('Inspections', [
+        'foreignKey' => 'inspection_id',
+        'joinType' => 'INNER',
+    ]);
+    
+    // Add this to ensure we can access Clients through Inspections
+    $this->Inspections->belongsTo('Clients', [
+        'foreignKey' => 'client_id',
+        'joinType' => 'INNER',
+    ]);
+}
     /**
      * Default validation rules.
      *

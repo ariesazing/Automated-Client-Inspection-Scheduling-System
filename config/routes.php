@@ -137,7 +137,51 @@ return function (RouteBuilder $routes): void {
             $builder->connect('/toggle', ['controller' => 'Availabilities', 'action' => 'toggle']);
         });
 
+        $builder->scope('/availabilities', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Availabilities', 'action' => 'index']);
+            $builder->connect('/index/{inspector_id}', [
+                'controller' => 'Availabilities',
+                'action' => 'index'
+            ], [
+                'pass' => ['inspector_id']
+            ]);
+            $builder->connect('/getAvailabilities', ['controller' => 'Availabilities', 'action' => 'getAvailabilities']);
+            $builder->connect('/getAvailabilitiesForTable', ['controller' => 'Availabilities', 'action' => 'getAvailabilitiesForTable']);
+            $builder->connect('/getInspectorAvailabilities/{inspector_id}', [
+                'controller' => 'Availabilities',
+                'action' => 'getInspectorAvailabilities'
+            ], [
+                'pass' => ['inspector_id']
+            ]);
+            $builder->connect('/add', ['controller' => 'Availabilities', 'action' => 'add']);
+            $builder->connect('/editAvailabilities/{id}', [
+                'controller' => 'Availabilities',
+                'action' => 'editAvailabilities'
+            ], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', [
+                'controller' => 'Availabilities',
+                'action' => 'delete'
+            ], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/toggle', ['controller' => 'Availabilities', 'action' => 'toggle']);
+        });
+
         $builder->scope('/Inspectors', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Inspectors', 'action' => 'index']);
+            $builder->connect('/getInspectors', ['controller' => 'Inspectors', 'action' => 'getInspectors']);
+            $builder->connect('/add', ['controller' => 'Inspectors', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Inspectors', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Inspectors', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
+
+        $builder->scope('/inspectors', function (RouteBuilder $builder) {
             $builder->connect('/', ['controller' => 'Inspectors', 'action' => 'index']);
             $builder->connect('/getInspectors', ['controller' => 'Inspectors', 'action' => 'getInspectors']);
             $builder->connect('/add', ['controller' => 'Inspectors', 'action' => 'add']);
@@ -162,6 +206,23 @@ return function (RouteBuilder $routes): void {
             ]);
         });
         $builder->connect('/SchedulingLogs/getSchedulingLogs', [
+            'controller' => 'SchedulingLogs',
+            'action' => 'getSchedulingLogs'
+        ]);
+
+        $builder->scope('/inspections', function (RouteBuilder $builder) {
+            $builder->connect('/', ['controller' => 'Inspections', 'action' => 'index']);
+            $builder->connect('/getInspections', ['controller' => 'Inspections', 'action' => 'getInspections']);
+            $builder->connect('/getInspectorInspections', ['controller' => 'Inspections', 'action' => 'getInspectorInspections']);
+            $builder->connect('/add', ['controller' => 'Inspections', 'action' => 'add']);
+            $builder->connect('/edit/{id}', ['controller' => 'Inspections', 'action' => 'edit'], [
+                'pass' => ['id']
+            ]);
+            $builder->connect('/delete/{id}', ['controller' => 'Inspections', 'action' => 'delete'], [
+                'pass' => ['id']
+            ]);
+        });
+        $builder->connect('/schedulingLogs/getSchedulingLogs', [
             'controller' => 'SchedulingLogs',
             'action' => 'getSchedulingLogs'
         ]);
