@@ -59,7 +59,7 @@ class UsersController extends AppController
                     case 'admin':
                         return $this->redirect(['controller' => 'Dashboard', 'action' => 'index']);
                     case 'inspector':
-                        return $this->redirect(['controller' => 'DashboardInspector', 'action' => 'index']);
+                        return $this->redirect(['controller' => 'Inspectors', 'action' => 'index']);
                 }
 
                 // Fallback redirect

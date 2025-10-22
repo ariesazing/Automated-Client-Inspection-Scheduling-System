@@ -1,5 +1,33 @@
+// RBAC helper function
+function hasPermission(action, recordId = null) {
+    // Get user role and inspector_id from server-side rendered auth data
+    const userRole = window.AUTH ? window.AUTH.role : null;
+    const userInspectorId = window.AUTH ? window.AUTH.inspector_id : null;
+    
+    const permissions = {
+        'admin': ['view', 'add', 'edit', 'delete'],
+        'inspector': ['view', 'edit'],
+        // Add other roles as needed
+    };
+
+    // First check if the role has the basic permission
+    const hasBasePermission = permissions[userRole] ? permissions[userRole].includes(action) : false;
+
+    // If it's an inspector and trying to edit/delete, check if it's their own record
+    if (userRole === 'inspector' && (action === 'edit' || action === 'delete')) {
+        return hasBasePermission && recordId === userInspectorId;
+    }
+
+    return hasBasePermission;
+}
+
 $(function () {
     getInspectors();
+
+    // Hide CRUD buttons if user doesn't have permission
+    if (!hasPermission('add')) {
+        $('#add').hide();
+    }
 
     $('#add').on('click', function (e) {
         e.preventDefault();
@@ -12,6 +40,10 @@ $(function () {
     $('#inspectors-table').on('click', '.edit', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
+        if (!hasPermission('edit', id)) {
+            msgBox('error', 'You do not have permission to edit this inspector.');
+            return;
+        }
         $.ajax({
             url: BASE_URL + '/api/Inspectors/edit/' + id,
             type: "GET",
@@ -68,6 +100,10 @@ $(function () {
     $('#inspectors-table').on('click', '.delete', function (e) {
         e.preventDefault();
         let id = $(this).data('id');
+        if (!hasPermission('delete', id)) {
+            msgBox('error', 'You do not have permission to delete this inspector.');
+            return;
+        }
         isDelete(function (confirmed) {
             if (confirmed) {
                 $.ajax({
@@ -127,6 +163,7 @@ function loadUsers(selectedUserId = null, callback = null) {
 }
 
 function getInspectors() {
+
     $.ajax({
         url: BASE_URL + '/api/Inspectors/getInspectors',
         type: 'GET',
@@ -149,11 +186,23 @@ function getInspectors() {
                 {
                     data: null,
                     render: function (data) {
-                        return `
-                            <div style="text-align:center;">
-                                <a href="#" class="edit" data-id="${data.id}"><i class="fas fa-pen"></i></a> |
-                                <a href="#" class="delete text-danger" data-id="${data.id}"><i class="fa fa-trash"></i></a>
-                            </div>`;
+                        let actions = '<div style="text-align:center;">';
+                        
+                        if (hasPermission('edit', data.id)) {
+                            actions += `<a href="#" class="edit" data-id="${data.id}"><i class="fas fa-pen"></i></a>`;
+                        }
+                        
+                        if (hasPermission('delete', data.id)) {
+                            actions += hasPermission('edit', data.id) ? ' | ' : '';
+                            actions += `<a href="#" class="delete text-danger" data-id="${data.id}"><i class="fa fa-trash"></i></a>`;
+                        }
+
+                        if (!hasPermission('edit', data.id) && !hasPermission('delete', data.id)) {
+                            actions += `<span class="text-muted">No actions available</span>`;
+                        }
+                        
+                        actions += '</div>';
+                        return actions;
                     }
                 }
             ]

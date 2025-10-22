@@ -19,16 +19,6 @@
         </div>
         <nav class="mt-2 mb-0">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                <?php if ($auth['role'] !== 'admin'): ?>
-                    <li class="nav-item">
-                        <?php $active = $title == 'DashboardInspector' ? 'active' : '' ?>
-                        <?= $this->Html->link('<i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>', '/DashboardInspector', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
-                    </li>
-                <?php endif; ?>
                 <?php if ($auth['role'] !== 'inspector'): ?>
                     <li class="nav-item">
                         <?php $active = $title == 'Dashboard' ? 'active' : '' ?>
@@ -37,14 +27,14 @@
                             Dashboard
                         </p>', '/Dashboard', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
                     </li>
-                    <li class="nav-item">
-                        <?php $active = $title == 'Inspectors' ? 'active' : '' ?>
-                        <?= $this->Html->link('<i class="nav-icon fas fa-user-tie"></i>
+                <?php endif; ?>
+                <li class="nav-item">
+                    <?php $active = $title == 'Inspectors' ? 'active' : '' ?>
+                    <?= $this->Html->link('<i class="nav-icon fas fa-user-tie"></i>
                         <p>
                             Inspectors
                         </p>', '/Inspectors', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
-                    </li>
-                <?php endif; ?>
+                </li>
                 <li class="nav-item">
                     <?php $active = $title == 'Inspections' ? 'active' : '' ?>
                     <?= $this->Html->link('<i class="nav-icon fas fa-clipboard-list"></i>
@@ -59,14 +49,14 @@
                             Availabilities
                         </p>', '/Availabilities', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
                 </li>
-                <li class="nav-item">
-                    <?php $active = $title == 'Clients' ? 'active' : '' ?>
-                    <?= $this->Html->link('<i class="nav-icon fas fa-users"></i>
+                <?php if ($auth['role'] !== 'inspector'): ?>
+                    <li class="nav-item">
+                        <?php $active = $title == 'Clients' ? 'active' : '' ?>
+                        <?= $this->Html->link('<i class="nav-icon fas fa-users"></i>
                         <p>
                             Clients
                         </p>', '/Clients', ['class' => 'nav-link ' . $active, 'escape' => false]) ?>
-                </li>
-                <?php if ($auth['role'] !== 'inspector'): ?>
+                    </li>
                     <li class="nav-item">
                         <?php $active = $title == 'Users' ? 'active' : '' ?>
                         <?= $this->Html->link('<i class="nav-icon fas fa-user-cog"></i>

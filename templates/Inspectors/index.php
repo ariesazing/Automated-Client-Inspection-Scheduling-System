@@ -1,4 +1,9 @@
 <div class="col-12">
+    <?php
+    // Pass auth data to JavaScript
+    $authJson = json_encode($auth);
+    echo "<script>window.AUTH = $authJson;</script>";
+    ?>
     <div class="card card-danger">
         <div class="card-header">
             <h3 class="card-title">Inspectors</h3>
